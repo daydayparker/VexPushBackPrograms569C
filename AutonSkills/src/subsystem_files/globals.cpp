@@ -15,9 +15,9 @@ pros::MotorGroup rightDriveMotorGroup({20, 10, 12}, pros::v5::MotorGears::blue, 
 
 //INTAKE MOTORS
 //{UPPER, LOWER, SWITCHER}
-pros::Motor switcherIntakeMotor(-5, pros::v5::MotorGears::green, pros::v5::MotorUnits::degrees);
+pros::Motor switcherIntakeMotor(-15, pros::v5::MotorGears::green, pros::v5::MotorUnits::degrees);
 pros::MotorGroup upperLowerIntakeMotor({8,6}, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
-pros::MotorGroup allIntakeMotorGroup({8,6,-5}, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
+pros::MotorGroup allIntakeMotorGroup({8,6,-15}, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
 
 //ODOMETRY
 pros::Imu inertialSensor(13);

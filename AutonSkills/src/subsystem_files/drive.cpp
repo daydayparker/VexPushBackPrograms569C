@@ -8,8 +8,8 @@ const int ANALOG_DEAD_ZONE = 1;
 const int WHILE_LOOP_WAIT_TIME = 10;
 
 //PRECISION CONSTANTS
-const double TRANSLATION_PRECISION = 10;
-const double ROTATION_PRECISION = 2.5;
+const double TRANSLATION_PRECISION = 5; //10
+const double ROTATION_PRECISION = 1; // 2.5
 
 //error = 180:  kP * error = 127
 
@@ -167,7 +167,7 @@ void rotate(int degrees, double KP, double KI, double KD, double acceleration, d
         //loopCounter++;
 
         //CALCULATE VOLTAGE FROM SLEW RATE
-        // double voltageFromSlewRate = DIRECTION * (loopCounter * acceleration + slewRateThreshold);
+        //double voltageFromSlewRate = DIRECTION * (loopCounter * acceleration + slewRateThreshold);
 
 
         //RETRIEVE THE TOTAL THAT THE ROBOT HAS ROTATED
@@ -179,7 +179,7 @@ void rotate(int degrees, double KP, double KI, double KD, double acceleration, d
         integral += error;
         previousError = error;
 
-        if (fabs(derivative) < 0.1){
+        if (fabs(derivative) < 0.05){
             safetyExitCounter++;
         }
         if (safetyExitCounter > 30){
@@ -190,12 +190,15 @@ void rotate(int degrees, double KP, double KI, double KD, double acceleration, d
         //CALCULATE THE MOTOR POWER FROM PID
         int voltageFromPropotionalIntegralDerivative = KP * error + KI * integral + KD * derivative;
 
+
         //USE VOLTAGE FROM SLEW RATE IF IT IS LESS THAN VOLTAGE FROM PID
         // if (fabs(voltageFromPropotionalIntegralDerivative) > fabs(voltageFromSlewRate)){
-          //  driveMotorVoltage = voltageFromSlewRate;
+            //driveMotorVoltage = voltageFromSlewRate;
         //}
 
         driveMotorVoltage = voltageFromPropotionalIntegralDerivative;
+        controller.print(0, 0, "ERROR: %f", error);
+
 
         //SEND THE CHOSEN VOLTAGE TO THE MOTORS
         setDrive(driveMotorVoltage, -driveMotorVoltage);
@@ -205,7 +208,6 @@ void rotate(int degrees, double KP, double KI, double KD, double acceleration, d
 
     }
 
-    controller.print(0, 0, "angle: %f", currentYaw);
 
     //STOP MOVING
     setDrive(0, 0);

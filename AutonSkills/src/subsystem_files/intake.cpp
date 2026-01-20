@@ -10,7 +10,7 @@ void setSwitcherIntake(int power, bool shouldSwitcherSpinFoward, bool shouldSwit
         actualPower = power;
     }
     if(shouldSwitcherSpinBackward){
-        actualPower = -power * 0.1;
+        actualPower = -power;
     }
     switcherIntakeMotor.move(actualPower);
 }

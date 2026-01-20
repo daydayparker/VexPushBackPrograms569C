@@ -106,8 +106,139 @@ void competition_initialize() {
 
 
 void auton(){
+	// exits condition makes it so you dont need delay
 
+	//MOVING TOWARDS MATCH LOADER
+	translate(1530); //1520 - 1530
+	pros::delay(100);
+
+	//ROTATE TOWARDS MATCH LOADER
+	rotate(90); 
+	pros::delay(100);
+
+	//ACTUATE MATCH LOADER PNEUMATIC AND DESCORE PNEUMATIC
+	setDescorePneumatic(true);
+	setMatchLoadPneumatic(true);
+	pros::delay(625);
+
+	//MAKE ROOM FOR MATCH LOADER
+	translate(-75, 2);
+	pros::delay(100);
+
+	//RETRIEVE BALLS FROM CLOSE LEFT MATCH LOADER
+	leftDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
+	rightDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
+	allIntakeMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
+	setIntake(MAX_VOLTAGE);
+	setDrive(0.33 * MAX_VOLTAGE, 0.33 * MAX_VOLTAGE);
+	pros::delay(500);
+	setDrive(0,0);
+	pros::delay(333);
+	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
+	pros::delay(500);
+	setDrive(0,0);
+	pros::delay(333);
+	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
+	pros::delay(500);
+	setDrive(0,0);
+	pros::delay(333);
+	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
+	pros::delay(500);
+	setDrive(0,0);
+	pros::delay(333);
+	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
+	pros::delay(1750);
+	leftDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+	rightDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+	allIntakeMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+
+	//MOVE TOWARDS RIGHT WALL
+	translate(-500);
+	setIntake(0);
+	setMatchLoadPneumatic(false);
+	pros::delay(100);
+	rotate(180);
+	pros::delay(100);
+	translate(-637);
+	pros::delay(100);
+	
+	//MOVE TOWARDS FAR WALL
+	rotate(270); 
+	pros::delay(100);
+	translate(4000);
+	pros::delay(250);
+
+	//ALIGN WITH RIGHT LONG GOAL
+	rotate(180);
+	pros::delay(100);
+	translate(547);
+	pros::delay(100);
+	rotate(270);
+	pros::delay(100);
+	setDrive(-0.5 * MAX_VOLTAGE, -0.5 * MAX_VOLTAGE);
+	pros::delay(1000);
+
+	//SCORE ON RIGHT LONG GOAL
+	setDescorePneumatic(false);
+	setIntake(MAX_VOLTAGE);
+	pros::delay(500);
+	setIntake(-MAX_VOLTAGE);
+	pros::delay(250);
+	setIntake(MAX_VOLTAGE);
+	pros::delay(3250);
+
+	//RETRIEVE BALLS FROM FAR RIGHT MATCH LOADER
+	setDescorePneumatic(true);
+	setMatchLoadPneumatic(true);
+	leftDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
+	rightDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
+	allIntakeMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
+	setDrive(0.225 * MAX_VOLTAGE, 0.275 * MAX_VOLTAGE);
+	pros::delay(500);
+	setDescorePneumatic(true);
+	setDrive(0.275 * MAX_VOLTAGE, 0.25 * MAX_VOLTAGE);
+	pros::delay(1000);
+	setDrive(0,0);
+	pros::delay(250);
+	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
+	pros::delay(500);
+	setDrive(0,0);
+	pros::delay(333);
+	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
+	pros::delay(500);
+	setDrive(0,0);
+	pros::delay(333);
+	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
+	pros::delay(500);
+	setDrive(0,0);
+	pros::delay(333);
+	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
+	pros::delay(1750);
+	leftDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+	rightDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+	allIntakeMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+
+	//ALIGN WITH RIGHT LONG GOAL
+	setDrive(-0.5 * MAX_VOLTAGE, -0.55 * MAX_VOLTAGE);
+	pros::delay(1500);
+
+	//SCORE ON RIGHT LONG GOAL AGAIN
+	setMatchLoadPneumatic(false);
+	setDescorePneumatic(false);
+	setIntake(MAX_VOLTAGE);
+	pros::delay(500);
+	setIntake(-MAX_VOLTAGE);
+	pros::delay(250);
+	setIntake(MAX_VOLTAGE);
+	pros::delay(3250);                                                                                
+
+	//GET ALL OF THE SAME COLOR INTO THE CONTROL ZONE
+	setDrive(0.5 * MAX_VOLTAGE, 0.5 * MAX_VOLTAGE);
+	setDescorePneumatic(true);
+	pros::delay(500);
+	setDrive(-0.5 * MAX_VOLTAGE, -0.5 * MAX_VOLTAGE);
 }
+
 
 
 

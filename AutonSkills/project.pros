@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Auton",
+    "project_name": "AutonSkills",
     "target": "v5",
     "templates": {
       "kernel": {

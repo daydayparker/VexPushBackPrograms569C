@@ -9,7 +9,8 @@ double getAverageDriveEncoderValue();
 void setDriveByDriver();
 
 //AUTONOMOUS FUNCTIONS
-void translate(int displacement, double KP = 2, double KI = 0, double KD = 0.025, double acceleration = 4, double slewRateThreshold = 27);
-void rotate(int degrees, double KP = 3, double KI = 0, double KD = .5, double acceleration = 4, double slewRateThreshold = 27);
+void translate(int displacement, double KP = 0.1, double KI = 0, double KD = 0.025, double acceleration = 4, double slewRateThreshold = 27);
+void rotate(int degrees, double KP = 4, double KI = 0, double KD = 28, double acceleration = 4, double slewRateThreshold = 27);
+//BEST: P = 4 and D = 28
 
 int sign(double number);
