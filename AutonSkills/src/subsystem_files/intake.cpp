@@ -1,7 +1,7 @@
 #include "main.h"
 
-void setUpperLowerIntake(int power){
-    upperLowerIntakeMotor.move(power);
+void setIntake(int power){
+    allIntakeMotorGroup.move(power);
 }
 
 void setSwitcherIntake(int power, bool shouldSwitcherSpinFoward, bool shouldSwitcherSpinBackward){
@@ -15,6 +15,7 @@ void setSwitcherIntake(int power, bool shouldSwitcherSpinFoward, bool shouldSwit
     switcherIntakeMotor.move(actualPower);
 }
 
-void setIntake(int power){
-    allIntakeMotorGroup.move(power);
+void setUpperLowerIntake(int power){
+    upperLowerIntakeMotorGroup.move(power);
 }
+

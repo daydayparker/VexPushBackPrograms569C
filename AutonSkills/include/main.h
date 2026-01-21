@@ -75,6 +75,8 @@ void opcontrol(void);
 #include "subsystem_headers/globals.hpp"
 #include "subsystem_headers/intake.hpp"
 #include "subsystem_headers/pneumatics.hpp"
+#include "subsystem_headers/constants.hpp"
+
 /**
  * You can add C++-only headers here
  */
