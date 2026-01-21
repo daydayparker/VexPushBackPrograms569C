@@ -159,7 +159,7 @@ void auton(){
 	pros::delay(100);
 	rotate(180);
 	pros::delay(100);
-	translate(-637);
+	translate(-675);
 	pros::delay(100);
 	
 	//MOVE TOWARDS FAR WALL
