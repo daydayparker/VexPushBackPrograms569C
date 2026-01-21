@@ -18,12 +18,6 @@ void on_center_button() {
 }
 */
 
-//CONSTANTS
-const int INERTIAL_SENSOR_DATE_RATE = 5;
-const int WHILE_LOOP_WAIT_TIME = 10;
-const int MAX_VOLTAGE = 127;
-
-
 //STATE-TRACKING BOOLEANS
 bool isDescorePneumaticExtended;
 bool isDoubleParkPneumaticExtended;
@@ -39,12 +33,14 @@ bool shouldSwitcherSpinBackward;
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
+
 void initialize() {
 	//INITIALIZE THE LCD
 	pros::lcd::initialize();
 
-	//PUT TEXT ON THE CONTROLLER SCREEN
-	//controller.set_text(0, 0, "By: daydayparker");
+	//PUT AWESOME TEXT ON THE CONTROLLER SCREEN
+	controller.print(0, 0, "By: %f", "daydayparker");
+
 
 	//ASSIGN VALUES TO STATE-TRACKING BOOLEANS
 	isDescorePneumaticExtended = false;
@@ -56,19 +52,16 @@ void initialize() {
 	shouldSwitcherSpinBackward = false;
 
 	//SET MOTOR BRAKE TYPES
-	leftDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
-	rightDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
-	allIntakeMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_COAST);
+	allIntakeMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
 
 	//CALIBRATE THE INERTIAL SENSOR
 	inertialSensor.reset();
 
 	//WAITING FOR THE INERTIAL SENSOR TO CALIBRATE
 	while (inertialSensor.is_calibrating()){
-		pros::delay(WHILE_LOOP_WAIT_TIME);
+		pros::delay(WHILE_LOOP_DELAY_DURATION);
 	}
-
-	
 }
 
 /**
@@ -102,9 +95,6 @@ void competition_initialize() {
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-
-
-
 void auton(){
 	// exits condition makes it so you dont need delay
 
@@ -126,31 +116,12 @@ void auton(){
 	pros::delay(100);
 
 	//RETRIEVE BALLS FROM CLOSE LEFT MATCH LOADER
-	leftDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
-	rightDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
-	allIntakeMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
+	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_BRAKE);
 	setIntake(MAX_VOLTAGE);
-	setDrive(0.33 * MAX_VOLTAGE, 0.33 * MAX_VOLTAGE);
-	pros::delay(500);
-	setDrive(0,0);
-	pros::delay(333);
-	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
-	pros::delay(500);
-	setDrive(0,0);
-	pros::delay(333);
-	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
-	pros::delay(500);
-	setDrive(0,0);
-	pros::delay(333);
-	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
-	pros::delay(500);
-	setDrive(0,0);
-	pros::delay(333);
+	shake(4, 0.33, 500, 333);
 	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
 	pros::delay(1750);
-	leftDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
-	rightDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
-	allIntakeMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_COAST);
 
 	//MOVE TOWARDS RIGHT WALL
 	translate(-500);
@@ -187,36 +158,21 @@ void auton(){
 	setIntake(MAX_VOLTAGE);
 	pros::delay(3250);
 
-	//RETRIEVE BALLS FROM FAR RIGHT MATCH LOADER
+	//ALIGN WITH FAR RIGHT MATCH LOADER
 	setDescorePneumatic(true);
 	setMatchLoadPneumatic(true);
-	leftDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
-	rightDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
-	allIntakeMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
 	setDrive(0.225 * MAX_VOLTAGE, 0.275 * MAX_VOLTAGE);
 	pros::delay(500);
 	setDescorePneumatic(true);
 	setDrive(0.275 * MAX_VOLTAGE, 0.25 * MAX_VOLTAGE);
 	pros::delay(1000);
-	setDrive(0,0);
-	pros::delay(250);
-	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
-	pros::delay(500);
-	setDrive(0,0);
-	pros::delay(333);
-	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
-	pros::delay(500);
-	setDrive(0,0);
-	pros::delay(333);
-	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
-	pros::delay(500);
-	setDrive(0,0);
-	pros::delay(333);
+
+	//RETRIEVE BALLS FROM FAR RIGHT MATCH LOADER
+	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_BRAKE);
+	shake(3, 0.33, 500, 333);
 	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
 	pros::delay(1750);
-	leftDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
-	rightDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
-	allIntakeMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_COAST);
 
 	//ALIGN WITH RIGHT LONG GOAL
 	setDrive(-0.5 * MAX_VOLTAGE, -0.55 * MAX_VOLTAGE);
@@ -231,22 +187,11 @@ void auton(){
 	pros::delay(250);
 	setIntake(MAX_VOLTAGE);
 	pros::delay(3250);                                                                                
-
-	//GET ALL OF THE SAME COLOR INTO THE CONTROL ZONE
-	setDrive(0.5 * MAX_VOLTAGE, 0.5 * MAX_VOLTAGE);
-	setDescorePneumatic(true);
-	pros::delay(500);
-	setDrive(-0.5 * MAX_VOLTAGE, -0.5 * MAX_VOLTAGE);
 }
-
-
-
 
 void autonomous() {
 	auton();
 }
-
-
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -261,16 +206,12 @@ void autonomous() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
-
-
-
 void opcontrol() {
-	leftDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
-	rightDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
+	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_COAST);
 	allIntakeMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
 
 	while (true){
-		pros::delay(WHILE_LOOP_WAIT_TIME);
+		pros::delay(WHILE_LOOP_DELAY_DURATION);
 
 		//X = DOUBLE PARK EXTENDED / RETRACTED: TOGGLE
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
