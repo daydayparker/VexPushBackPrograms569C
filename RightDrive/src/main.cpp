@@ -130,7 +130,7 @@ void rightMatchAuton(){
 
 	//SCORE ON MATCH LOADER
 	setDescorePneumatic(false);
-	pros::delay(1000);
+	pros::delay(750);
 
 	//UNSTUCK BALLS IF BALLS ARE STUCK
 	setIntake(-MAX_VOLTAGE);
@@ -138,7 +138,7 @@ void rightMatchAuton(){
 
 	//CONTINUE SCORING ON MATCH LOADER
 	setIntake(MAX_VOLTAGE);
-	pros::delay(1750);
+	pros::delay(750);
 	
 	//STOP MOVING AND STOP INTAKE
 	setDrive(0,0);
