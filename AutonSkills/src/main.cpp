@@ -95,7 +95,7 @@ void competition_initialize() {
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void auton(){
+void skillsAuton(){
 	// exits condition makes it so you dont need delay
 
 	//MOVING TOWARDS MATCH LOADER
@@ -142,7 +142,7 @@ void auton(){
 	pros::delay(100);
 	translate(585);
 	pros::delay(100);
-	rotate(270);
+	rotate(272);
 	pros::delay(100);
 	setDrive(-0.5 * MAX_VOLTAGE, -0.5 * MAX_VOLTAGE);
 	pros::delay(1000);
@@ -185,7 +185,7 @@ void auton(){
 }
 
 void autonomous() {
-	auton();
+	skillsAuton();
 }
 
 /**

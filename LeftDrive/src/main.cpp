@@ -95,97 +95,67 @@ void competition_initialize() {
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void auton(){
-	// exits condition makes it so you dont need delay
-
-	//MOVING TOWARDS MATCH LOADER
-	translate(1575);
-	pros::delay(100);
-
-	//ROTATE TOWARDS MATCH LOADER
-	rotate(90); 
-	pros::delay(100);
-
-	//ACTUATE MATCH LOADER PNEUMATIC AND DESCORE PNEUMATIC
+void leftMatchAuton(){
+	//MAKE SURE BALLS DO NOT FALL OUT
 	setDescorePneumatic(true);
-	setMatchLoadPneumatic(true);
-	pros::delay(625);
 
-	//MAKE ROOM FOR MATCH LOADER
-	translate(-75, 2);
-	pros::delay(100);
-
-	//RETRIEVE BALLS FROM CLOSE LEFT MATCH LOADER
+	//COLLECT THREE RED BALLS FROM MIDDLE AREA
+	translate(675);
+	rotate(-45);
 	setIntake(MAX_VOLTAGE);
-	shake(6, 0.33, 500, 333);
-	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
-	pros::delay(1750);
+	translate(860, 0.05);
 
-	//MOVE TOWARDS RIGHT WALL
-	translate(-500);
+	//ALIGN WITH TOP CENTER GOAL
+	rotate(-135);
+	translate(-1035); //-1100
+
+	//SCORE ON TOP CENTER GOAL
+	setIntake(0.5 * MAX_VOLTAGE);
+	setDescorePneumatic(false);
+	pros::delay(550);
 	setIntake(0);
-	setMatchLoadPneumatic(false);
-	pros::delay(100);
-	rotate(180);
-	pros::delay(100);
-	translate(-695);
-	pros::delay(100);
-	
-	//MOVE TOWARDS FAR WALL
-	rotate(270); 
-	pros::delay(100);
-	translate(4000);
-	pros::delay(250);
-
-	//ALIGN WITH RIGHT LONG GOAL
-	rotate(180);
-	pros::delay(100);
-	translate(585);
-	pros::delay(100);
-	rotate(270);
-	pros::delay(100);
-	setDrive(-0.5 * MAX_VOLTAGE, -0.5 * MAX_VOLTAGE);
-	pros::delay(1000);
-
-	//SCORE ON RIGHT LONG GOAL
-	setDescorePneumatic(false);
-	setIntake(MAX_VOLTAGE);
-	pros::delay(500);
-	setIntake(-MAX_VOLTAGE);
-	pros::delay(250);
-	setIntake(MAX_VOLTAGE);
-	pros::delay(3250);
-
-	//ALIGN WITH FAR RIGHT MATCH LOADER
 	setDescorePneumatic(true);
+	pros::delay(250);
+
+	//ALIGN WITH MATCH LOADER
+	rotate(-130);
+	translate(2330); //2330 - 2355
+	rotate(-180);
 	setMatchLoadPneumatic(true);
-	setDrive(0.275 * MAX_VOLTAGE, 0.275 * MAX_VOLTAGE);
+
+	//MAKE SURE BALLS DO NOT GET STUCK
+	setIntake(-MAX_VOLTAGE);
+	pros::delay(125);
+	setIntake(MAX_VOLTAGE);
+	pros::delay(125);
+
+	//RETRIEVE THREE RED BALLS FROM MATCH LOADER
+	setDrive(0.4 * MAX_VOLTAGE, 0.4 * MAX_VOLTAGE);
+	pros::delay(1000);
+	shake(1, 0.5, 500, 250);
+
+	//ALIGN WITH MATCH LOADER
+	setDrive(-0.75 * MAX_VOLTAGE, -0.75 * MAX_VOLTAGE);
+	pros::delay(500);
+
+	//SCORE ON MATCH LOADER
+	setDescorePneumatic(false);
 	pros::delay(1000);
 
-	//RETRIEVE BALLS FROM FAR RIGHT MATCH LOADER
-	setDescorePneumatic(true);
-	shake(4, 0.33, 500, 333);
-	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
-	pros::delay(1750);
-
-	//ALIGN WITH RIGHT LONG GOAL
-	setDrive(-0.4 * MAX_VOLTAGE, -0.4 * MAX_VOLTAGE);
-	pros::delay(1500);
-
-	//SCORE ON RIGHT LONG GOAL AGAIN
-	setMatchLoadPneumatic(false);
-	setDescorePneumatic(false);
-	setIntake(MAX_VOLTAGE);
-	pros::delay(500);
+	//UNSTUCK BALLS IF BALLS ARE STUCK
 	setIntake(-MAX_VOLTAGE);
-	pros::delay(250);
+	pros::delay(125);
+
+	//CONTINUE SCORING ON MATCH LOADER
 	setIntake(MAX_VOLTAGE);
-	pros::delay(3250);
+	pros::delay(1000);
 	
+	//WINGS UP FOR DEFENSE
+	setDescorePneumatic(true);
 }
 
 void autonomous() {
-	auton();
+	leftMatchAuton();
 }
 
 /**

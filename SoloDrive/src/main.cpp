@@ -95,97 +95,12 @@ void competition_initialize() {
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void auton(){
-	// exits condition makes it so you dont need delay
+void soloMatchAuton(){
 
-	//MOVING TOWARDS MATCH LOADER
-	translate(1575);
-	pros::delay(100);
-
-	//ROTATE TOWARDS MATCH LOADER
-	rotate(90); 
-	pros::delay(100);
-
-	//ACTUATE MATCH LOADER PNEUMATIC AND DESCORE PNEUMATIC
-	setDescorePneumatic(true);
-	setMatchLoadPneumatic(true);
-	pros::delay(625);
-
-	//MAKE ROOM FOR MATCH LOADER
-	translate(-75, 2);
-	pros::delay(100);
-
-	//RETRIEVE BALLS FROM CLOSE LEFT MATCH LOADER
-	setIntake(MAX_VOLTAGE);
-	shake(6, 0.33, 500, 333);
-	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
-	pros::delay(1750);
-
-	//MOVE TOWARDS RIGHT WALL
-	translate(-500);
-	setIntake(0);
-	setMatchLoadPneumatic(false);
-	pros::delay(100);
-	rotate(180);
-	pros::delay(100);
-	translate(-695);
-	pros::delay(100);
-	
-	//MOVE TOWARDS FAR WALL
-	rotate(270); 
-	pros::delay(100);
-	translate(4000);
-	pros::delay(250);
-
-	//ALIGN WITH RIGHT LONG GOAL
-	rotate(180);
-	pros::delay(100);
-	translate(585);
-	pros::delay(100);
-	rotate(270);
-	pros::delay(100);
-	setDrive(-0.5 * MAX_VOLTAGE, -0.5 * MAX_VOLTAGE);
-	pros::delay(1000);
-
-	//SCORE ON RIGHT LONG GOAL
-	setDescorePneumatic(false);
-	setIntake(MAX_VOLTAGE);
-	pros::delay(500);
-	setIntake(-MAX_VOLTAGE);
-	pros::delay(250);
-	setIntake(MAX_VOLTAGE);
-	pros::delay(3250);
-
-	//ALIGN WITH FAR RIGHT MATCH LOADER
-	setDescorePneumatic(true);
-	setMatchLoadPneumatic(true);
-	setDrive(0.275 * MAX_VOLTAGE, 0.275 * MAX_VOLTAGE);
-	pros::delay(1000);
-
-	//RETRIEVE BALLS FROM FAR RIGHT MATCH LOADER
-	setDescorePneumatic(true);
-	shake(4, 0.33, 500, 333);
-	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
-	pros::delay(1750);
-
-	//ALIGN WITH RIGHT LONG GOAL
-	setDrive(-0.4 * MAX_VOLTAGE, -0.4 * MAX_VOLTAGE);
-	pros::delay(1500);
-
-	//SCORE ON RIGHT LONG GOAL AGAIN
-	setMatchLoadPneumatic(false);
-	setDescorePneumatic(false);
-	setIntake(MAX_VOLTAGE);
-	pros::delay(500);
-	setIntake(-MAX_VOLTAGE);
-	pros::delay(250);
-	setIntake(MAX_VOLTAGE);
-	pros::delay(3250);
-	
 }
 
 void autonomous() {
-	auton();
+	soloMatchAuton();
 }
 
 /**
