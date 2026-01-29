@@ -109,14 +109,15 @@ void rotate(int degrees, double KP, double KI, double KD, double acceleration, d
     setDrive(0, 0);
 }
 
-void shake(int totalShakes, double maxVoltageMultiplier, int shakeDuration, int coolDown){
+void shake(int totalShakes, double firstVoltage, double secondVoltage, int shakeDuration, int coolDown)
+{
     setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_COAST);
     for (int shakeCounter = 0; shakeCounter < totalShakes; shakeCounter++)
     {
-        setDrive(maxVoltageMultiplier * MAX_VOLTAGE, maxVoltageMultiplier * MAX_VOLTAGE);
-        pros::delay(500);
-        setDrive(0,0);
-        pros::delay(333);
+        setDrive(firstVoltage, firstVoltage);
+        pros::delay(shakeDuration);
+        setDrive(secondVoltage, secondVoltage);
+        pros::delay(coolDown);
     }
     setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_BRAKE);
 }
