@@ -84,6 +84,10 @@ void competition_initialize() {
 	
 }
 
+
+
+
+
 /**
  * Runs the user autonomous code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -108,49 +112,58 @@ void rightMatchAuton(){
 
 	//ALIGN WITH MATCH LOADER
 	rotate(135);
-	translate(1475); //1450 - 1500
-	rotate(182); // 180
+	translate(1450); //1550
+	rotate(180); // 180
 	setMatchLoadPneumatic(true);
 
 	//MAKE SURE BALLS DO NOT GET STUCK 
 	setIntake(-MAX_VOLTAGE);
-	pros::delay(125);
+	pros::delay(400);
 	setIntake(MAX_VOLTAGE);
 	pros::delay(125);
 
 	//RETRIEVE THREE RED BALLS FROM MATCH LOADER
 	setDrive(0.4 * MAX_VOLTAGE, 0.4 * MAX_VOLTAGE);
-	pros::delay(1750);
+	pros::delay(500); // 1750
+	shake(3, MAX_VOLTAGE * 0.5, -MAX_VOLTAGE * 0.25, 500, 100);
+	rotate(180);
 
-
-	//ALIGN WITH MATCH LOADER
+	//ALIGN WITH LONG GOAL
 	setMatchLoadPneumatic(false);
 	setDrive(-0.5 * MAX_VOLTAGE, -0.5 * MAX_VOLTAGE);
 	pros::delay(500);
 
-	//SCORE ON MATCH LOADER
-	setDescorePneumatic(false);
-	pros::delay(750);
+	//SCORE ON LONG GOAL
+	setDescorePneumatic(false); 
+	setIntake(MAX_VOLTAGE);
+	pros::delay(1000);
 
 	//UNSTUCK BALLS IF BALLS ARE STUCK
 	setIntake(-MAX_VOLTAGE);
-	pros::delay(125);
+	pros::delay(250);
 
-	//CONTINUE SCORING ON MATCH LOADER
+	//CONTINUE SCORING ON LONG GOAL
 	setIntake(MAX_VOLTAGE);
-	pros::delay(750);
+	pros::delay(3000);
 	
 	//STOP MOVING AND STOP INTAKE
 	setDrive(0,0);
 	setIntake(0);
 
+	//GET CONTROL ZONE ON LONG GOAL
+	translate(250);
+	setDescorePneumatic(true);
+	setDrive(-MAX_VOLTAGE, -MAX_VOLTAGE);
+
 
 	//GO FOR DESCORE
+	/*
 	translate(500);
 	rotate(90);
 	translate(570);
 	rotate(1);
-	translate(1250);
+	translate(1000);
+	*/
 }
 
 void autonomous() {
@@ -176,6 +189,12 @@ void opcontrol() {
 
 	while (true){
 		pros::delay(WHILE_LOOP_DELAY_DURATION);
+
+		if (fabs(upperLowerIntakeMotorGroup.get_actual_velocity()) < 25 && isIntakeSpinningForward)
+		{
+			controller.rumble(".");
+			//controller.print(0, 0, "Low RPM: %f rpm", upperLowerIntakeMotorGroup.get_actual_velocity());
+		}
 
 		//X = DOUBLE PARK EXTENDED / RETRACTED: TOGGLE
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
@@ -237,6 +256,21 @@ void opcontrol() {
 			isIntakeSpinningBackward = true;
 		}
 		if (controller.get_digital_new_release(pros::E_CONTROLLER_DIGITAL_R2))
+		{
+			isIntakeSpinningForward = false;
+			isIntakeSpinningBackward = false;
+			setIntake(0);
+		}
+
+		//LEFT = SPIN INTAKE BACKWARDS SLOWER: HELD
+		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT))
+		{
+			setUpperLowerIntake(-0.5 * MAX_VOLTAGE);
+			setSwitcherIntake(0.5 * MAX_VOLTAGE, false, true);
+			isIntakeSpinningForward = false;
+			isIntakeSpinningBackward = true;
+		}
+		if (controller.get_digital_new_release(pros::E_CONTROLLER_DIGITAL_LEFT))
 		{
 			isIntakeSpinningForward = false;
 			isIntakeSpinningBackward = false;

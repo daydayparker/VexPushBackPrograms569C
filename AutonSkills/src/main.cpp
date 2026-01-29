@@ -96,8 +96,8 @@ void competition_initialize() {
  * from where it left off.
  */
 void skillsAuton(){
-	// exits condition makes it so you dont need delay
-
+	setIntake(0.1 * MAX_VOLTAGE);
+	/*
 	//MOVING TOWARDS MATCH LOADER
 	translate(1575);
 	pros::delay(100);
@@ -181,7 +181,7 @@ void skillsAuton(){
 	pros::delay(250);
 	setIntake(MAX_VOLTAGE);
 	pros::delay(3250);
-	
+	*/
 }
 
 void autonomous() {
