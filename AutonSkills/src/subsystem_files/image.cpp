@@ -1,10 +1,7 @@
 //Generated and displayed for you to copy or download. Insert the code into your VEX C++ project and call the drawLogo() method to display the image.
 //JohnRobotTextV1.png
-/*
-#include "main.h"
-#include "vex.h"
 
-using namespace vex;
+#include "main.h"
 
 void drawLogo() {
     static const char* imageColors[] = {
@@ -24,9 +21,9 @@ void drawLogo() {
         int count = imageCounts[i];
         if(index >= 0) {
             const char* color = imageColors[index];
-            Brain.Screen.setPenColor(color);
+            pros::screen::set_pen(0x00FF0000);
             for(int j = 0; j < count; ++j) {
-                Brain.Screen.drawPixel(x++, y);
+                pros::screen::draw_pixel(x++, y);
                 if(x >= 480) { x = 0; y++; }
             }
         } else {
@@ -35,4 +32,3 @@ void drawLogo() {
         }
     }
 }
-*/

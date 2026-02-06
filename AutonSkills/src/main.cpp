@@ -38,6 +38,9 @@ void initialize() {
 	//INITIALIZE THE LCD
 	pros::lcd::initialize();
 
+	//DRAW AWESOME STUFF ON BRAIN
+	drawLogo();
+
 	//PUT AWESOME TEXT ON THE CONTROLLER SCREEN
 	controller.print(0, 0, "By: %f", "daydayparker");
 
@@ -97,7 +100,7 @@ void competition_initialize() {
  */
 void skillsAuton(){
 	//TESTING MOVEMENT
-	translate(3500);
+	translate(1000);
 
 	//WAIT!
 	pros::delay(100000);
