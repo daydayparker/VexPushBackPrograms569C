@@ -108,19 +108,19 @@ void rightMatchAuton(){
 	translate(675);
 	rotate(45);
 	setIntake(MAX_VOLTAGE);
-	translate(800); //835
+	translate(750); //835
 	//translate(-100);
 
 	//ALIGN WITH BOTTOM MIDDLE GOAL
 	rotate(-41); //-45
 	setIntake(-MAX_VOLTAGE);
-	translate(475); //625: 725
+	translate(575); //475:
 
 	//SCORE ON BOTTOM MIDDLE GOAL
 	setIntake(0);
 
 	//ALIGN WITH MATCH LOADER
-	translate(-1950); //-2000
+	translate(-2125); //-2100
 	rotate(-180);
 
 	//ALIGN WITH MATCH LOADER
@@ -142,7 +142,7 @@ void rightMatchAuton(){
 	//ALIGN WITH LONG GOAL
 	setMatchLoadPneumatic(false);
 	setDrive(-0.5 * MAX_VOLTAGE, -0.5 * MAX_VOLTAGE);
-	pros::delay(500);
+	pros::delay(400);
 
 	//SCORE ON LONG GOAL
 	setDescorePneumatic(false); 
