@@ -97,7 +97,7 @@ void competition_initialize() {
  */
 void skillsAuton(){
 	//TESTING MOVEMENT
-	translate(1000);
+	translate(3500);
 
 	//WAIT!
 	pros::delay(100000);

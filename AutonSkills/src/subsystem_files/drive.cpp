@@ -196,22 +196,34 @@ void translate(int displacement, double KP, double KI, double KD, double acceler
         double currentYaw = inertialSensor.get_rotation();
         double rotationalError = currentYaw - goalYaw;
 
-        //SPECIFIC SIDE VOLTAGES
+
+        //DECLARE SPECIFIC SIDE VOLTAGES
         double leftVoltage;
         double rightVoltage;
 
-        //VOLTAGE POWERS
-        int greaterVoltageMultiplier = 1 - direction * error;
-        int lesserVoltageMultiplier = 1 + direction * error;
-        
+        //ERROR CORRECTION VOLTAGE CALCULATIONS
+        double rotationalDisplacementProduct = direction * error * TRANSLATION_ERROR_CORRECTION_MULTIPLIER;
+
+        //ENSURE SIGNS ARE THE SAME
+        double leftSideCorrection = fabs(1 - rotationalDisplacementProduct);
+        double rightSideCorrection = fabs(1 + rotationalDisplacementProduct);
+
+        //ENSURE THAT ERROR CORRECTION IS NOT EXTREME
+        leftSideCorrection = std::clamp(leftSideCorrection, TRANSLATION_ERROR_CLAMP_MINIMUM, TRANSLATION_ERROR_CLAMP_MAXIMUM);
+        rightSideCorrection = std::clamp(rightSideCorrection, TRANSLATION_ERROR_CLAMP_MINIMUM, TRANSLATION_ERROR_CLAMP_MAXIMUM);
+
+        //CALCULATE THE FINAL VOLTAGE FOR EACH SIDE
+        int finalLeftSideVoltage = voltageFromPropotionalIntegralDerivative * leftSideCorrection;
+        int finalRightSideVoltage = voltageFromPropotionalIntegralDerivative * rightSideCorrection;
+
         //ASSIGN SPECIFIC SIDE VOLTAGES
         if (rotationalError >= 0){
-            leftVoltage = voltageFromPropotionalIntegralDerivative * (1 - direction * error);
-            rightVoltage = voltageFromPropotionalIntegralDerivative * (1 + direction * error);
+            leftVoltage = finalLeftSideVoltage;
+            rightVoltage = finalRightSideVoltage;
         }
         else{
-            leftVoltage = voltageFromPropotionalIntegralDerivative * (1 + direction * error);
-            rightVoltage = voltageFromPropotionalIntegralDerivative * (1 - direction * error);
+            leftVoltage = finalRightSideVoltage;
+            rightVoltage = finalLeftSideVoltage;
         }
 
         //SEND THE CHOSEN VOLTAGE TO THE MOTORS
