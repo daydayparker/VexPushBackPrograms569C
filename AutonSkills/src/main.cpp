@@ -96,10 +96,14 @@ void competition_initialize() {
  * from where it left off.
  */
 void skillsAuton(){
-	setIntake(0.1 * MAX_VOLTAGE);
-	/*
+	//TESTING MOVEMENT
+	translate(1000);
+
+	//WAIT!
+	pros::delay(100000);
+
 	//MOVING TOWARDS MATCH LOADER
-	translate(1575);
+	translate(1525);
 	pros::delay(100);
 
 	//ROTATE TOWARDS MATCH LOADER
@@ -117,32 +121,32 @@ void skillsAuton(){
 
 	//RETRIEVE BALLS FROM CLOSE LEFT MATCH LOADER
 	setIntake(MAX_VOLTAGE);
-	shake(6, 0.33, 500, 333);
+	shake(6, 0.5 * MAX_VOLTAGE, -0.25 * MAX_VOLTAGE, 500, 100);
 	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
 	pros::delay(1750);
 
-	//MOVE TOWARDS RIGHT WALL
+	//MOVE TOWARDS CENTER
 	translate(-500);
 	setIntake(0);
 	setMatchLoadPneumatic(false);
 	pros::delay(100);
-	rotate(180);
+	rotate(0);
 	pros::delay(100);
-	translate(-695);
+	translate(-800);
 	pros::delay(100);
 	
 	//MOVE TOWARDS FAR WALL
-	rotate(270); 
+	rotate(90); 
 	pros::delay(100);
-	translate(4000);
+	translate(-4000);
 	pros::delay(250);
 
 	//ALIGN WITH RIGHT LONG GOAL
 	rotate(180);
 	pros::delay(100);
-	translate(585);
+	translate(-1000);
 	pros::delay(100);
-	rotate(272);
+	rotate(270);
 	pros::delay(100);
 	setDrive(-0.5 * MAX_VOLTAGE, -0.5 * MAX_VOLTAGE);
 	pros::delay(1000);
@@ -164,7 +168,8 @@ void skillsAuton(){
 
 	//RETRIEVE BALLS FROM FAR RIGHT MATCH LOADER
 	setDescorePneumatic(true);
-	shake(4, 0.33, 500, 333);
+	shake(4, 0.5 * MAX_VOLTAGE, -0.25 * MAX_VOLTAGE, 500, 100);
+	//shake(4, 0.33, 500, 333);
 	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
 	pros::delay(1750);
 
@@ -181,7 +186,7 @@ void skillsAuton(){
 	pros::delay(250);
 	setIntake(MAX_VOLTAGE);
 	pros::delay(3250);
-	*/
+	
 }
 
 void autonomous() {
@@ -230,6 +235,21 @@ void opcontrol() {
 			if (isIntakeSpinningForward || isIntakeSpinningBackward){
 				setSwitcherIntake(MAX_VOLTAGE, shouldSwitcherSpinFoward, shouldSwitcherSpinBackward);
 			}
+		}
+
+		//LEFT = SPIN INTAKE BACKWARDS SLOWER: HELD
+		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT))
+		{
+			setUpperLowerIntake(-0.5 * MAX_VOLTAGE);
+			setSwitcherIntake(0.5 * MAX_VOLTAGE, false, true);
+			isIntakeSpinningForward = false;
+			isIntakeSpinningBackward = true;
+		}
+		if (controller.get_digital_new_release(pros::E_CONTROLLER_DIGITAL_LEFT))
+		{
+			isIntakeSpinningForward = false;
+			isIntakeSpinningBackward = false;
+			setIntake(0);
 		}
 
 		//L1 = EXTEND / RETRACT DESCORE PNEUMATIC: TOGGLE

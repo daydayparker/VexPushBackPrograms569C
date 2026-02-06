@@ -34,8 +34,8 @@ int sign(double number){
 
 //DRIVER CONTROL FUNCTIONS
 void setDriveByDriver(){
-    int leftJoystickValue = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) * 0.9;
-    int rightJoystickValue = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) * 0.9;
+    int leftJoystickValue = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+    int rightJoystickValue = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
     if (abs(leftJoystickValue) < ANALOG_DEAD_ZONE){
         leftJoystickValue = 0;
     }
@@ -136,6 +136,9 @@ void translate(int displacement, double KP, double KI, double KD, double acceler
     double averageDriveMotorEncoderValue = 0;
     int driveMotorVoltage = 0;
 
+    //ROTATION VARIABLES
+    double goalYaw = inertialSensor.get_rotation();
+
     //INITIALIZING ERROR
     error = fabs(displacement) - fabs(averageDriveMotorEncoderValue);
 
@@ -184,8 +187,35 @@ void translate(int displacement, double KP, double KI, double KD, double acceler
             driveMotorVoltage = voltageFromPropotionalIntegralDerivative;
         }
 
+        //SHOULD I MAKE THE CORRECTION MULTIPLICATIVE OR ADDITIVE
+        
+        //DIRECTION
+        int direction = sign(displacement);
+
+        //ROTATIONAL VARIABLES
+        double currentYaw = inertialSensor.get_rotation();
+        double rotationalError = currentYaw - goalYaw;
+
+        //SPECIFIC SIDE VOLTAGES
+        double leftVoltage;
+        double rightVoltage;
+
+        //VOLTAGE POWERS
+        int greaterVoltageMultiplier = 1 - direction * error;
+        int lesserVoltageMultiplier = 1 + direction * error;
+        
+        //ASSIGN SPECIFIC SIDE VOLTAGES
+        if (rotationalError >= 0){
+            leftVoltage = voltageFromPropotionalIntegralDerivative * (1 - direction * error);
+            rightVoltage = voltageFromPropotionalIntegralDerivative * (1 + direction * error);
+        }
+        else{
+            leftVoltage = voltageFromPropotionalIntegralDerivative * (1 + direction * error);
+            rightVoltage = voltageFromPropotionalIntegralDerivative * (1 - direction * error);
+        }
+
         //SEND THE CHOSEN VOLTAGE TO THE MOTORS
-        setDrive(driveMotorVoltage, driveMotorVoltage);
+        setDrive(leftVoltage, rightVoltage);
 
         //DELAY FOR LOOPING
         pros::delay(WHILE_LOOP_DELAY_DURATION);

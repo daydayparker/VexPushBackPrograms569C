@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "INTAKEAUTON",
+    "project_name": "AutonSkills",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -593,7 +593,7 @@
     },
     "upload_options": {
       "icon": "ufo",
-      "slot": 5,
+      "slot": 4,
       "description": "This program is for auton skills"
     },
     "use_early_access": false

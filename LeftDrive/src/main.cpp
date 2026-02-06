@@ -99,59 +99,71 @@ void leftMatchAuton(){
 	//MAKE SURE BALLS DO NOT FALL OUT
 	setDescorePneumatic(true);
 
-	//COLLECT THREE RED BALLS FROM MIDDLE AREA
+	//COLLECT THREE BALLS FROM MIDDLE AREA
 	translate(675);
 	rotate(-45);
 	setIntake(MAX_VOLTAGE);
-	translate(860, 0.05);
+	translate(680);
 
-	//ALIGN WITH TOP CENTER GOAL
+	//UNSTUCK BALLS IF BALLS ARE STUCK
+	setIntake(-MAX_VOLTAGE);
+	pros::delay(200);
+	setIntake(MAX_VOLTAGE);
+
+	//ALIGN WITH TOP GOAL
 	rotate(-135);
-	translate(-1035); //-1100
+	translate(-1100);
 
-	//SCORE ON TOP CENTER GOAL
-	setIntake(0.5 * MAX_VOLTAGE);
+	//SCORE ON TOP GOAL
 	setDescorePneumatic(false);
-	pros::delay(550);
+	setIntake(MAX_VOLTAGE);
+	setSwitcherIntake(0.5 * MAX_VOLTAGE, false, true);
+	pros::delay(1250);
 	setIntake(0);
-	setDescorePneumatic(true);
-	pros::delay(250);
 
 	//ALIGN WITH MATCH LOADER
 	rotate(-130);
-	translate(2330); //2330 - 2355
+	translate(2440); //2450 = NEEDS TO BE CLOSER
 	rotate(-180);
-	setMatchLoadPneumatic(true);
-
-	//MAKE SURE BALLS DO NOT GET STUCK
-	setIntake(-MAX_VOLTAGE);
-	pros::delay(125);
+	
+	//PREPARE TO RETRIEVE THREE BALLS FROM MATCH LOADER
 	setIntake(MAX_VOLTAGE);
-	pros::delay(125);
-
-	//RETRIEVE THREE RED BALLS FROM MATCH LOADER
-	setDrive(0.4 * MAX_VOLTAGE, 0.4 * MAX_VOLTAGE);
-	pros::delay(1000);
-	shake(1, 0.5, 500, 250);
-
-	//ALIGN WITH MATCH LOADER
-	setDrive(-0.75 * MAX_VOLTAGE, -0.75 * MAX_VOLTAGE);
+	setMatchLoadPneumatic(true);
 	pros::delay(500);
 
-	//SCORE ON MATCH LOADER
-	setDescorePneumatic(false);
+	//RETRIEVE THREE BALLS FROM MATCH LOADER
+	setDrive(0.4 * MAX_VOLTAGE, 0.4 * MAX_VOLTAGE);
+	pros::delay(500);
+	shake(3, MAX_VOLTAGE * 0.5, -MAX_VOLTAGE * 0.25, 500, 100);
+	rotate(-180);
+
+	//ALIGN WITH LONG GOAL
+	setMatchLoadPneumatic(false);
+	setDrive(-0.5 * MAX_VOLTAGE, -0.5 * MAX_VOLTAGE);
+	pros::delay(500);
+
+	//SCORE ON LONG GOAL
+	setDescorePneumatic(false); 
+	setIntake(MAX_VOLTAGE);
 	pros::delay(1000);
 
 	//UNSTUCK BALLS IF BALLS ARE STUCK
 	setIntake(-MAX_VOLTAGE);
-	pros::delay(125);
+	pros::delay(250);
 
-	//CONTINUE SCORING ON MATCH LOADER
+	//CONTINUE SCORING ON LONG GOAL
 	setIntake(MAX_VOLTAGE);
-	pros::delay(1000);
+	pros::delay(3000);
 	
-	//WINGS UP FOR DEFENSE
+	//STOP MOVING AND STOP INTAKE
+	setDrive(0,0);
+	setIntake(0);
+
+	//GET CONTROL ZONE ON LONG GOAL
+	translate(250);
 	setDescorePneumatic(true);
+	setDrive(-MAX_VOLTAGE, -MAX_VOLTAGE);
+
 }
 
 void autonomous() {
@@ -200,6 +212,21 @@ void opcontrol() {
 			if (isIntakeSpinningForward || isIntakeSpinningBackward){
 				setSwitcherIntake(MAX_VOLTAGE, shouldSwitcherSpinFoward, shouldSwitcherSpinBackward);
 			}
+		}
+
+		//LEFT = SPIN INTAKE BACKWARDS SLOWER: HELD
+		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT))
+		{
+			setUpperLowerIntake(-0.5 * MAX_VOLTAGE);
+			setSwitcherIntake(0.5 * MAX_VOLTAGE, false, true);
+			isIntakeSpinningForward = false;
+			isIntakeSpinningBackward = true;
+		}
+		if (controller.get_digital_new_release(pros::E_CONTROLLER_DIGITAL_LEFT))
+		{
+			isIntakeSpinningForward = false;
+			isIntakeSpinningBackward = false;
+			setIntake(0);
 		}
 
 		//L1 = EXTEND / RETRACT DESCORE PNEUMATIC: TOGGLE

@@ -34,8 +34,8 @@ int sign(double number){
 
 //DRIVER CONTROL FUNCTIONS
 void setDriveByDriver(){
-    int leftJoystickValue = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) * 0.9;
-    int rightJoystickValue = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) * 0.9;
+    int leftJoystickValue = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+    int rightJoystickValue = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
     if (abs(leftJoystickValue) < ANALOG_DEAD_ZONE){
         leftJoystickValue = 0;
     }

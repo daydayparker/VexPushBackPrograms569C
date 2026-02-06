@@ -220,6 +220,21 @@ void opcontrol() {
 			}
 		}
 
+		//LEFT = SPIN INTAKE BACKWARDS SLOWER: HELD
+		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT))
+		{
+			setUpperLowerIntake(-0.5 * MAX_VOLTAGE);
+			setSwitcherIntake(0.5 * MAX_VOLTAGE, false, true);
+			isIntakeSpinningForward = false;
+			isIntakeSpinningBackward = true;
+		}
+		if (controller.get_digital_new_release(pros::E_CONTROLLER_DIGITAL_LEFT))
+		{
+			isIntakeSpinningForward = false;
+			isIntakeSpinningBackward = false;
+			setIntake(0);
+		}
+
 		//L1 = EXTEND / RETRACT DESCORE PNEUMATIC: TOGGLE
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)){
 			isDescorePneumaticExtended = !isDescorePneumaticExtended;
@@ -256,21 +271,6 @@ void opcontrol() {
 			isIntakeSpinningBackward = true;
 		}
 		if (controller.get_digital_new_release(pros::E_CONTROLLER_DIGITAL_R2))
-		{
-			isIntakeSpinningForward = false;
-			isIntakeSpinningBackward = false;
-			setIntake(0);
-		}
-
-		//LEFT = SPIN INTAKE BACKWARDS SLOWER: HELD
-		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT))
-		{
-			setUpperLowerIntake(-0.5 * MAX_VOLTAGE);
-			setSwitcherIntake(0.5 * MAX_VOLTAGE, false, true);
-			isIntakeSpinningForward = false;
-			isIntakeSpinningBackward = true;
-		}
-		if (controller.get_digital_new_release(pros::E_CONTROLLER_DIGITAL_LEFT))
 		{
 			isIntakeSpinningForward = false;
 			isIntakeSpinningBackward = false;

@@ -8,7 +8,7 @@ const int MAX_VOLTAGE = 127;
 const int NUMBER_OF_MOTORS = 6;
 
 //PRECISION CONSTANTS
-const int ANALOG_DEAD_ZONE = 1;
+const int ANALOG_DEAD_ZONE = 20;
 const int ROTATION_PRECISION = 1;
 const int TRANSLATION_PRECISION = 5;
 
