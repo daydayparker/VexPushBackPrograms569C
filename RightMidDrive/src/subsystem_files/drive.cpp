@@ -5,6 +5,11 @@ double getAverageDriveEncoderValue(){
     return (leftDriveMotorGroup.get_position(0) + rightDriveMotorGroup.get_position(0)) / 2;
 }
 
+double getDistanceSensorValueInInches(){
+    return distanceSensor.get_distance() * MILLIMETERS_TO_INCHES;
+}
+
+
 void resetDriveEncoders(){
    leftDriveMotorGroup.tare_position_all();
    rightDriveMotorGroup.tare_position_all();
@@ -209,7 +214,9 @@ void translateWithDistanceSensor(int distance, double KP, double KI, double KD, 
     int driveMotorVoltage;
 
     //INITIALIZING ERROR
-    error = distanceSensor.get_distance() - distance;
+    error = distance - distanceSensor.get_distance();
+    controller.print(0, 0, "By: %i", distanceSensor.get_distance());
+
 
     //SLEW RATE VARIABLES AND CONSTANTS
     int loopCounter = 0;
@@ -264,3 +271,7 @@ void translateWithDistanceSensor(int distance, double KP, double KI, double KD, 
     //STOP MOVING
     setDrive(0, 0);
 }
+
+/*
+Not-Continuous means that I would need to have odometry to calculate the rotation of the motors to inches.
+*/

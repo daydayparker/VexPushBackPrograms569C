@@ -13,6 +13,7 @@ pros::Motor switcherIntakeMotor(-15, pros::v5::MotorGears::green, pros::v5::Moto
 pros::MotorGroup upperLowerIntakeMotorGroup({8,6}, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
 
 //ODOMETRY
+pros::Distance distanceSensor(17);
 pros::Imu inertialSensor(13);
 
 //PNEUMATICS

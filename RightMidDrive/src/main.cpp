@@ -1,5 +1,5 @@
 #include "main.h"
-#include "liblvgl/lvgl.h"
+//#include "liblvgl/lvgl.h"
 
 /**
  * A callback function for LLEMU's center button.
@@ -20,15 +20,16 @@ void on_center_button() {
 }
 */
 
+/*
 void display_img_from_c_array(){
 	// create a variable for the c array (image)
-	LV_IMAGE_DECLARE(JohnRobotTextV1);
+	LV_IMAGE_DECLARE(john_robot_image);
 
 	// declare and define the image object
 	lv_obj_t* img = lv_image_create(lv_screen_active());
 
 	// set the source data for the image
-	lv_image_set_src(img, &JohnRobotTextV1);
+	lv_image_set_src(img, &john_robot_image);
 
 	//align image
 	lv_obj_align(img, LV_ALIGN_CENTER, 0, 0);
@@ -37,6 +38,7 @@ void display_img_from_c_array(){
 void display_img_from_file(const void * src){
 
 }
+*/
 
 //STATE-TRACKING BOOLEANS
 bool isDescorePneumaticExtended;
@@ -58,8 +60,8 @@ void initialize() {
 	//PUT AWESOME TEXT ON THE CONTROLLER SCREEN
 	controller.print(0, 0, "By: %s", "daydayparker");
 
-	//AWESOME BRAIN
-	display_img_from_c_array();
+	//AWESOME BRAIN SCREEN
+	//display_img_from_c_array();
 
 	//ASSIGN VALUES TO STATE-TRACKING BOOLEANS
 	isDescorePneumaticExtended = false;
@@ -109,7 +111,7 @@ void competition_initialize() {
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
- * with the default priority and stack size whenever the robot is enabled via
+ * with the default prior ity and stack size whenever the robot is enabled via
  * the Field Management System or the VEX Competition Switch in the autonomous
  * mode. Alternatively, this function may be called in initialize or opcontrol
  * for non-competition testing purposes.
@@ -120,6 +122,10 @@ void competition_initialize() {
  */
 
 void rightMatchAuton(){
+
+	translateWithDistanceSensor(100);
+	rotate(45);
+	pros::delay(1000000);
 	//MAKE SURE BALLS DO NOT FALL OUT
 	setDescorePneumatic(true);
 
@@ -215,6 +221,7 @@ void opcontrol() {
 
 	while (true){
 		pros::delay(WHILE_LOOP_DELAY_DURATION);
+		
 
 		if (fabs(upperLowerIntakeMotorGroup.get_actual_velocity()) < 25 && isIntakeSpinningForward)
 		{

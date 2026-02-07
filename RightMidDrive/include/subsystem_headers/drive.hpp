@@ -2,6 +2,7 @@
 
 //HELPER FUNCTIONS
 double getAverageDriveEncoderValue();
+double getDistanceSensorValueInInches();
 void resetDriveEncoders();
 void setDrive(int left, int right);
 void setDriveMotorBrakeType(const pros::motor_brake_mode_e_t mode);

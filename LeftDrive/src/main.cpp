@@ -103,11 +103,11 @@ void leftMatchAuton(){
 	translate(675);
 	rotate(-45);
 	setIntake(MAX_VOLTAGE);
-	translate(730); //680
+	translate(740); //680
 
 	//UNSTUCK BALLS IF BALLS ARE STUCK
 	setIntake(-MAX_VOLTAGE);
-	pros::delay(200);
+	pros::delay(125);
 	setIntake(MAX_VOLTAGE);
 
 	//ALIGN WITH TOP GOAL
@@ -117,16 +117,15 @@ void leftMatchAuton(){
 	//SCORE ON TOP GOAL
 	setIntake(MAX_VOLTAGE);
 	setSwitcherIntake(0.5 * MAX_VOLTAGE, false, true);
-	pros::delay(2000); //1500 
-	setIntake(0);
-
-	//START REINTAKE OF BALL
-	//setIntake()
+	pros::delay(1250); //2000 
 
 	//ALIGN WITH MATCH LOADER
 	rotate(-130);
-	translate(2375); //2325 = NEEDS TO BE CLOSER
-	rotate(-180);
+
+	//CONTINUE ALIGNING WITH MATCH LOADER
+	setSwitcherIntake(MAX_VOLTAGE, false, true);
+	translate(2375); //2325 = TOO CLOSE
+	rotate(-183);
 	
 	//PREPARE TO RETRIEVE THREE BALLS FROM MATCH LOADER
 	setIntake(MAX_VOLTAGE);
@@ -136,8 +135,8 @@ void leftMatchAuton(){
 	//RETRIEVE THREE BALLS FROM MATCH LOADER
 	setDrive(0.4 * MAX_VOLTAGE, 0.4 * MAX_VOLTAGE);
 	pros::delay(500);
-	shake(3, MAX_VOLTAGE * 0.5, -MAX_VOLTAGE * 0.25, 400, 100);
-	rotate(-180);
+	shake(3, MAX_VOLTAGE * 0.5, -MAX_VOLTAGE * 0.3, 350, 80);
+	rotate(-182);
 
 	//ALIGN WITH LONG GOAL
 	//setMatchLoadPneumatic(false);
@@ -155,18 +154,18 @@ void leftMatchAuton(){
 
 	//CONTINUE SCORING ON LONG GOAL
 	setIntake(MAX_VOLTAGE);
-	pros::delay(1000);
+	pros::delay(1000);  
 	
 	//STOP MOVING AND STOP INTAKE
 	setDrive(0,0);
 	setIntake(0);
 
 	//DESCORE
-	translate(500);
+	translate(600);
 	rotate(-135);
-	translate(-500); //-750
+	translate(-700); //-750
 	rotate(-180);
-	translate(-750); //-1250
+	translate(-900); //-1250
 
 
 }

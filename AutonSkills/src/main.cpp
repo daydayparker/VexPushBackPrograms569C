@@ -96,19 +96,11 @@ void competition_initialize() {
  * from where it left off.
  */
 void skillsAuton(){
-	//TESTING MOVEMENT
-	translate(1000);
-
-	//WAIT!
-	pros::delay(100000);
-
 	//MOVING TOWARDS MATCH LOADER
 	translate(1525);
-	pros::delay(100);
 
 	//ROTATE TOWARDS MATCH LOADER
 	rotate(90); 
-	pros::delay(100);
 
 	//ACTUATE MATCH LOADER PNEUMATIC AND DESCORE PNEUMATIC
 	setDescorePneumatic(true);
@@ -126,27 +118,23 @@ void skillsAuton(){
 	pros::delay(1750);
 
 	//MOVE TOWARDS CENTER
+	rotate(90);
 	translate(-500);
 	setIntake(0);
 	setMatchLoadPneumatic(false);
-	pros::delay(100);
 	rotate(0);
-	pros::delay(100);
 	translate(-800);
-	pros::delay(100);
 	
 	//MOVE TOWARDS FAR WALL
-	rotate(90); 
-	pros::delay(100);
+	rotate(-90); 
 	translate(-4000);
-	pros::delay(250);
 
 	//ALIGN WITH RIGHT LONG GOAL
-	rotate(180);
-	pros::delay(100);
-	translate(-1000);
-	pros::delay(100);
-	rotate(270);
+	rotate(0);
+	translate(610); //-600 = TOO CLOSE
+
+	//FACE RIGHT LONG GOAL
+	rotate(90);
 	pros::delay(100);
 	setDrive(-0.5 * MAX_VOLTAGE, -0.5 * MAX_VOLTAGE);
 	pros::delay(1000);
@@ -163,13 +151,13 @@ void skillsAuton(){
 	//ALIGN WITH FAR RIGHT MATCH LOADER
 	setDescorePneumatic(true);
 	setMatchLoadPneumatic(true);
+	rotate(-3);
 	setDrive(0.275 * MAX_VOLTAGE, 0.275 * MAX_VOLTAGE);
 	pros::delay(1000);
 
 	//RETRIEVE BALLS FROM FAR RIGHT MATCH LOADER
 	setDescorePneumatic(true);
 	shake(4, 0.5 * MAX_VOLTAGE, -0.25 * MAX_VOLTAGE, 500, 100);
-	//shake(4, 0.33, 500, 333);
 	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
 	pros::delay(1750);
 
@@ -206,9 +194,7 @@ void autonomous() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
-void opcontrol() {
-	//DRAW AWESOME STUFF ON BRAIN
-	drawLogo();
+void opcontrol(){
 	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_COAST);
 	allIntakeMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
 

@@ -11,6 +11,7 @@ extern pros::MotorGroup upperLowerIntakeMotorGroup;
 
 //ODOMETRY
 extern pros::Imu inertialSensor;
+extern pros::Distance distanceSensor;
 
 //PNEUMATICS
 extern pros::adi::DigitalOut descorePneumatic;
