@@ -1,11 +1,13 @@
 #include "main.h"
+#include "liblvgl/lvgl.h"
 
 /**
  * A callback function for LLEMU's center button.
  *
  * When this callback is fired, it will toggle line 2 of the LCD text between
  * "I was pressed!" and nothing.
- */
+*/
+
 /*
 void on_center_button() {
 	static bool pressed = false;
@@ -17,6 +19,24 @@ void on_center_button() {
 	}
 }
 */
+
+void display_img_from_c_array(){
+	// create a variable for the c array (image)
+	LV_IMAGE_DECLARE(JohnRobotTextV1);
+
+	// declare and define the image object
+	lv_obj_t* img = lv_image_create(lv_screen_active());
+
+	// set the source data for the image
+	lv_image_set_src(img, &JohnRobotTextV1);
+
+	//align image
+	lv_obj_align(img, LV_ALIGN_CENTER, 0, 0);
+}
+
+void display_img_from_file(const void * src){
+
+}
 
 //STATE-TRACKING BOOLEANS
 bool isDescorePneumaticExtended;
@@ -35,12 +55,11 @@ bool shouldSwitcherSpinBackward;
  */
 
 void initialize() {
-	//INITIALIZE THE LCD
-	pros::lcd::initialize();
-
 	//PUT AWESOME TEXT ON THE CONTROLLER SCREEN
-	controller.print(0, 0, "By: %f", "daydayparker");
+	controller.print(0, 0, "By: %s", "daydayparker");
 
+	//AWESOME BRAIN
+	display_img_from_c_array();
 
 	//ASSIGN VALUES TO STATE-TRACKING BOOLEANS
 	isDescorePneumaticExtended = false;

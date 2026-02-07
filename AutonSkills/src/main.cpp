@@ -38,9 +38,6 @@ void initialize() {
 	//INITIALIZE THE LCD
 	pros::lcd::initialize();
 
-	//DRAW AWESOME STUFF ON BRAIN
-	drawLogo();
-
 	//PUT AWESOME TEXT ON THE CONTROLLER SCREEN
 	controller.print(0, 0, "By: %f", "daydayparker");
 
@@ -210,6 +207,8 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+	//DRAW AWESOME STUFF ON BRAIN
+	drawLogo();
 	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_COAST);
 	allIntakeMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
 

@@ -196,3 +196,71 @@ void translate(int displacement, double KP, double KI, double KD, double acceler
     setDrive(0, 0);
 }
 
+
+//
+void translateWithDistanceSensor(int distance, double KP, double KI, double KD, double acceleration, double slewRateThreshold){
+    //PID VARIABLES
+    double error;
+    double previousError = 0;
+    double derivative;
+    double integral = 0;
+
+    //DRIVE MOTOR VARIABLES
+    int driveMotorVoltage;
+
+    //INITIALIZING ERROR
+    error = distanceSensor.get_distance() - distance;
+
+    //SLEW RATE VARIABLES AND CONSTANTS
+    int loopCounter = 0;
+    const int DIRECTION = sign(error);
+
+    int safetyExitCounter = 0;
+
+    while (fabs(error) > TRANSLATION_PRECISION)
+    {
+        //INCREMENT COUNTER USED FOR SLEW RATE
+        loopCounter++;
+
+        //CALCULATE VOLTAGE FROM SLEW RATE
+        double voltageFromSlewRate = DIRECTION * (loopCounter * acceleration + slewRateThreshold);
+
+        //UPDATE PID VARIABLES
+        error = distanceSensor.get_distance() - distance;
+        derivative = error - previousError;
+        integral += error;
+        previousError = error;
+
+
+        controller.print(0, 0, "d: %f", derivative);
+
+        if (fabs(derivative) < 0.1){
+            safetyExitCounter++;
+        }
+        if (safetyExitCounter > 3){ //5
+            break;
+        }
+
+
+        //CALCULATE THE MOTOR POWER FROM PID
+        double voltageFromPropotionalIntegralDerivative = KP * error + KI * integral + KD * derivative;
+
+        //USE VOLTAGE FROM SLEW RATE IF IT IS LESS THAN VOLTAGE FROM PID
+        if (fabs(voltageFromPropotionalIntegralDerivative) > fabs(voltageFromSlewRate)){
+            driveMotorVoltage = voltageFromSlewRate;
+        }
+        else{
+            driveMotorVoltage = voltageFromPropotionalIntegralDerivative;
+        }
+
+        //SEND THE CHOSEN VOLTAGE TO THE MOTORS
+        setDrive(driveMotorVoltage, driveMotorVoltage);
+
+        //DELAY FOR LOOPING
+        pros::delay(WHILE_LOOP_DELAY_DURATION);
+    }
+    
+
+    //STOP MOVING
+    setDrive(0, 0);
+}
