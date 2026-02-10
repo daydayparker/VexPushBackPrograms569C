@@ -217,8 +217,7 @@ void translateWithDistanceSensor(int distance, double KP, double KI, double KD, 
 
     //INITIALIZING ERROR
     error = distance - distanceSensor.get_distance();
-    controller.print(0, 0, "By: %i", distanceSensor.get_distance());
-
+    std::printf("%f", error);
 
     //SLEW RATE VARIABLES AND CONSTANTS
     int loopCounter = 0;
@@ -228,6 +227,9 @@ void translateWithDistanceSensor(int distance, double KP, double KI, double KD, 
 
     while (fabs(error) > TRANSLATION_PRECISION)
     {
+        controller.print(0, 0, "%f", error);
+        std::printf("%f", error);
+
         //INCREMENT COUNTER USED FOR SLEW RATE
         loopCounter++;
 
@@ -235,7 +237,7 @@ void translateWithDistanceSensor(int distance, double KP, double KI, double KD, 
         double voltageFromSlewRate = DIRECTION * (loopCounter * acceleration + slewRateThreshold);
 
         //UPDATE PID VARIABLES
-        error = distanceSensor.get_distance() - distance;
+        error = distance - distanceSensor.get_distance();
         derivative = error - previousError;
         integral += error;
         previousError = error;
@@ -266,7 +268,7 @@ void translateWithDistanceSensor(int distance, double KP, double KI, double KD, 
         setDrive(driveMotorVoltage, driveMotorVoltage);
 
         //DELAY FOR LOOPING
-        pros::delay(WHILE_LOOP_DELAY_DURATION);
+        pros::delay(DISTANCE_SENSOR_DELAY);
     }
     
 

@@ -1,4 +1,5 @@
 #include "main.h"
+//#include "liblvgl/lvgl.h"
 
 /**
  * A callback function for LLEMU's center button.
@@ -15,6 +16,26 @@ void on_center_button() {
 	} else {
 		pros::lcd::clear_line(2);
 	}
+}
+*/
+
+/*
+void display_img_from_c_array(){
+	// create a variable for the c array (image)
+	LV_IMAGE_DECLARE(john_robot_image);
+
+	// declare and define the image object
+	lv_obj_t* img = lv_image_create(lv_screen_active());
+
+	// set the source data for the image
+	lv_image_set_src(img, &john_robot_image);
+
+	//align image
+	lv_obj_align(img, LV_ALIGN_CENTER, 0, 0);
+}
+
+void display_img_from_file(const void * src){
+
 }
 */
 
@@ -35,11 +56,8 @@ bool shouldSwitcherSpinBackward;
  */
 
 void initialize() {
-	//INITIALIZE THE LCD
-	pros::lcd::initialize();
-
 	//PUT AWESOME TEXT ON THE CONTROLLER SCREEN
-	controller.print(0, 0, "By: %f", "daydayparker");
+	//controller.print(0, 0, "By: %s", "daydayparker");
 
 
 	//ASSIGN VALUES TO STATE-TRACKING BOOLEANS
@@ -117,7 +135,7 @@ void leftMatchAuton(){
 
 	//SCORE ON TOP GOAL
 	setIntake(MAX_VOLTAGE);
-	setSwitcherIntake(0.5 * MAX_VOLTAGE, false, true);
+	setSwitcherIntake(0.4 * MAX_VOLTAGE, false, true);
 	pros::delay(1250); //2000 
 
 	//ALIGN WITH MATCH LOADER
@@ -136,12 +154,12 @@ void leftMatchAuton(){
 	//RETRIEVE THREE BALLS FROM MATCH LOADER
 	setDrive(0.4 * MAX_VOLTAGE, 0.4 * MAX_VOLTAGE);
 	pros::delay(500);
-	shake(3, MAX_VOLTAGE * 0.5, -MAX_VOLTAGE * 0.3, 350, 80);
+	shake(3, MAX_VOLTAGE * 0.5, -MAX_VOLTAGE * 0.3, 300, 80);
 	rotate(-182);
 
 	//ALIGN WITH LONG GOAL
 	//setMatchLoadPneumatic(false);
-	setDrive(-0.7 * MAX_VOLTAGE, -0.7 * MAX_VOLTAGE);
+	setDrive(-0.6 * MAX_VOLTAGE, -0.6 * MAX_VOLTAGE);
 	pros::delay(500);
 
 	//SCORE ON LONG GOAL
@@ -155,7 +173,7 @@ void leftMatchAuton(){
 
 	//CONTINUE SCORING ON LONG GOAL
 	setIntake(MAX_VOLTAGE);
-	pros::delay(1000);  
+	pros::delay(1350);  
 	
 	//STOP MOVING AND STOP INTAKE
 	setDrive(0,0);
@@ -177,41 +195,42 @@ void rightMidMatchAuton(){
 	translate(675);
 	rotate(45);
 	setIntake(MAX_VOLTAGE);
-	translate(750); //835
-	//translate(-100);
+	translate(777);
 
 	//ALIGN WITH BOTTOM MIDDLE GOAL
-	rotate(-41); //-45
-	setIntake(-MAX_VOLTAGE);
-	translate(575); //475:
+	rotate(-45); //-41 
+	pros::delay(300);
+	setIntake(-0.9 * MAX_VOLTAGE);
+	translate(500); //500 - 600 = :
+	pros::delay(550);
 
 	//SCORE ON BOTTOM MIDDLE GOAL
 	setIntake(0);
 
 	//ALIGN WITH MATCH LOADER
-	translate(-2125); //-2100
-	rotate(-180);
+	translate(-1975); //-2000
+	rotate(-180); //NOTE: could be -178
 
 	//ALIGN WITH MATCH LOADER
 	translate(-100);
 	setMatchLoadPneumatic(true);
-	pros::delay(250);
+	pros::delay(200);
 
 	//MAKE SURE BALLS DO NOT GET STUCK 
 	setIntake(-MAX_VOLTAGE);
-	pros::delay(200); //400
+	pros::delay(125); //400
 	setIntake(MAX_VOLTAGE);
 
 	//RETRIEVE THREE RED BALLS FROM MATCH LOADER
 	setDrive(0.4 * MAX_VOLTAGE, 0.4 * MAX_VOLTAGE);
 	pros::delay(500); // 1750
-	shake(2, MAX_VOLTAGE * 0.5, -MAX_VOLTAGE * 0.25, 400, 100);
-	rotate(-180);
+	shake(3, MAX_VOLTAGE * 0.5, -MAX_VOLTAGE * 0.25, 325, 75); //400 on forward
+	rotate(-179); //-180
 
 	//ALIGN WITH LONG GOAL
 	setMatchLoadPneumatic(false);
-	setDrive(-0.5 * MAX_VOLTAGE, -0.5 * MAX_VOLTAGE);
-	pros::delay(400);
+	setDrive(-0.475 * MAX_VOLTAGE, -0.475 * MAX_VOLTAGE);
+	pros::delay(650);
 
 	//SCORE ON LONG GOAL
 	setDescorePneumatic(false); 
@@ -224,7 +243,7 @@ void rightMidMatchAuton(){
 
 	//CONTINUE SCORING ON LONG GOAL
 	setIntake(MAX_VOLTAGE);
-	pros::delay(1000);
+	pros::delay(1250);
 	
 	//STOP MOVING AND STOP INTAKE
 	setDrive(0,0);
@@ -234,12 +253,25 @@ void rightMidMatchAuton(){
 	rotate(-180);
 
 	//DESCORE
+	translate(600);
+	rotate(-135);
+	translate(-700); //-750
+	rotate(-180);
+	translate(-700); //-1250
+	rotate(-150);
+	
+	/*
 	translate(500);
 	rotate(-270);
-	translate(550);
+	translate(500);
 	rotate(-360);
-	translate(1250);
+	translate(1200);
 	rotate(-330);
+	*/
+
+	/*
+	
+	*/
 }
 
 void rightNoMidMatchAuton(){
@@ -254,7 +286,7 @@ void rightNoMidMatchAuton(){
 
 	//ALIGN WITH MATCH LOADER
 	rotate(135);
-	translate(1450); //1550
+	translate(1435); //1450
 	rotate(180); // 180
 	setMatchLoadPneumatic(true);
 
@@ -286,26 +318,116 @@ void rightNoMidMatchAuton(){
 
 	//CONTINUE SCORING ON LONG GOAL
 	setIntake(MAX_VOLTAGE);
-	pros::delay(3000);
+	pros::delay(2000);
 	
 	//STOP MOVING AND STOP INTAKE
 	setDrive(0,0);
 	setIntake(0);
 
-	//GET CONTROL ZONE ON LONG GOAL
-	translate(250);
+	//DESCORE
+	translate(600);
+	rotate(225);
+	translate(-725); //-750
+	rotate(180);
+	translate(-700); //-1250
+	rotate(210);
+}
+
+void safeRightMidMatchAuton(){
+	//MAKE SURE BALLS DO NOT FALL OUT
 	setDescorePneumatic(true);
-	setDrive(-MAX_VOLTAGE, -MAX_VOLTAGE);
 
+	//COLLECT THREE RED BALLS FROM MIDDLE AREA
+	translate(675);
+	rotate(45);
+	setIntake(MAX_VOLTAGE);
+	translate(777);
 
-	//GO FOR DESCORE
-	/*
-	translate(500);
-	rotate(90);
-	translate(570);
-	rotate(1);
-	translate(1000);
-	*/
+	//ALIGN WITH BOTTOM MIDDLE GOAL
+	rotate(-45); //-41 
+	pros::delay(300);
+	setIntake(-0.9 * MAX_VOLTAGE);
+	translate(500); //500 - 600 = :
+	pros::delay(550);
+
+	//SCORE ON BOTTOM MIDDLE GOAL
+	setIntake(0);
+
+	//ALIGN WITH MATCH LOADER
+	translate(-1900); //-2000
+	rotate(-180); //NOTE: could be -178
+
+	//ALIGN WITH MATCH LOADER
+	translate(-100);
+	setMatchLoadPneumatic(true);
+	pros::delay(250);
+
+	//MAKE SURE BALLS DO NOT GET STUCK 
+	setIntake(-MAX_VOLTAGE);
+	pros::delay(125); //400
+	setIntake(MAX_VOLTAGE);
+
+	//RETRIEVE THREE RED BALLS FROM MATCH LOADER
+	setDrive(0.4 * MAX_VOLTAGE, 0.4 * MAX_VOLTAGE);
+	pros::delay(500); // 1750
+	shake(3, MAX_VOLTAGE * 0.5, -MAX_VOLTAGE * 0.25, 350, 100); //400 on forward
+	rotate(-180);
+
+	//ALIGN WITH LONG GOAL
+	setMatchLoadPneumatic(false);
+	setDrive(-0.425 * MAX_VOLTAGE, -0.425 * MAX_VOLTAGE);
+	pros::delay(500);
+
+	//SCORE ON LONG GOAL
+	setDescorePneumatic(false); 
+	setIntake(MAX_VOLTAGE);
+	pros::delay(1000);
+
+	//UNSTUCK BALLS IF BALLS ARE STUCK
+	setIntake(-MAX_VOLTAGE);
+	pros::delay(125);
+
+	//CONTINUE SCORING ON LONG GOAL
+	setIntake(MAX_VOLTAGE);
+	pros::delay(1250);
+
+	//UNSTUCK BALLS IF BALLS ARE STUCK
+	setIntake(-MAX_VOLTAGE);
+	pros::delay(125);
+
+	//CONTINUE SCORING ON LONG GOAL
+	setIntake(MAX_VOLTAGE);
+	pros::delay(1250);
+
+	//UNSTUCK BALLS IF BALLS ARE STUCK
+	setIntake(-MAX_VOLTAGE);
+	pros::delay(125);
+
+	//CONTINUE SCORING ON LONG GOAL
+	setIntake(MAX_VOLTAGE);
+	pros::delay(1250);
+
+	//UNSTUCK BALLS IF BALLS ARE STUCK
+	setIntake(-MAX_VOLTAGE);
+	pros::delay(125);
+
+	//CONTINUE SCORING ON LONG GOAL
+	setIntake(MAX_VOLTAGE);
+	pros::delay(1250);
+	
+	//STOP MOVING AND STOP INTAKE
+	setDrive(0,0);
+	setIntake(0);
+
+	//REALIGN
+	rotate(-180);
+
+	//DESCORE
+	translate(600);
+	rotate(-135);
+	translate(-700); //-750
+	rotate(-180);
+	translate(-900); //-1250
 }
 
 void soloMatchAuton(){
@@ -481,13 +603,25 @@ void skillsAutonRoute2(){
 	setDrive(0, 0);
 }
 
+void spinIntakeAuton(){
+	pros::delay(1000);
+	setSwitcherIntake(0.25 * MAX_VOLTAGE, true, false); 
+}
+
+void johnTesting(){
+	translateWithDistanceSensor(400);
+}
+
 void autonomous() {
 	//leftMatchAuton(); //1
 	//rightMidMatchAuton(); //2
 	//rightNoMidMatchAuton(); //3
-	//soloMatchAuton(); //4
-	//skillsAutonRoute1(); //5
-	skillsAutonRoute2(); //6
+	//safeRightMidMatchAuton(); //4
+	//skillsAutonRoute1(); // none
+	//soloMatchAuton(); none
+	//skillsAutonRoute2(); //6
+	//spinIntakeAuton(); //7
+	johnTesting(); //8
 }
 
 /**
@@ -543,6 +677,21 @@ void opcontrol(){
 			isIntakeSpinningBackward = true;
 		}
 		if (controller.get_digital_new_release(pros::E_CONTROLLER_DIGITAL_LEFT))
+		{
+			isIntakeSpinningForward = false;
+			isIntakeSpinningBackward = false;
+			setIntake(0);
+		}
+
+		//RIGHT = SPIN INTAKE BACKWARDS SLOWER: HELD
+		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT))
+		{
+			setUpperLowerIntake(-0.5 * MAX_VOLTAGE);
+			setSwitcherIntake(0.5 * MAX_VOLTAGE, false, true);
+			isIntakeSpinningForward = false;
+			isIntakeSpinningBackward = true;
+		}
+		if (controller.get_digital_new_release(pros::E_CONTROLLER_DIGITAL_RIGHT))
 		{
 			isIntakeSpinningForward = false;
 			isIntakeSpinningBackward = false;
