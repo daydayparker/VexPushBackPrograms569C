@@ -70,8 +70,8 @@ void initialize() {
 	shouldSwitcherSpinBackward = false;
 
 	//SET MOTOR BRAKE TYPES
-	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_COAST);
-	allIntakeMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
+	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_BRAKE);
+	allIntakeMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
 
 	//CALIBRATE THE INERTIAL SENSOR
 	inertialSensor.reset();
@@ -639,7 +639,6 @@ void autonomous() {
  */
 void opcontrol(){
 	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_COAST);
-	allIntakeMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
 
 	while (true){
 		pros::delay(WHILE_LOOP_DELAY_DURATION);
