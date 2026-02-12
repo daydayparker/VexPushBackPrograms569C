@@ -643,20 +643,41 @@ void opcontrol(){
 	while (true){
 		pros::delay(WHILE_LOOP_DELAY_DURATION);
 
-		//X = DOUBLE PARK EXTENDED / RETRACTED: TOGGLE
-		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
+		//A = DOUBLE PARK EXTENDED / RETRACTED: TOGGLE
+		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
 			isDoubleParkPneumaticExtended = !isDoubleParkPneumaticExtended;
 			setDoubleParkPneumatic(isDoubleParkPneumaticExtended);
 		}
 
-		//UP = SWITCHER DIRECTION FORWARD: SEPARATE BUTTON TOGGLE
-		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
-			shouldSwitcherSpinFoward = true;
-			shouldSwitcherSpinBackward = false;
-			if ((isIntakeSpinningForward || isIntakeSpinningBackward)){	
-				setSwitcherIntake(MAX_VOLTAGE, shouldSwitcherSpinFoward, shouldSwitcherSpinBackward);
-			}
+		//B = SPIN INTAKE BACKWARDS SLOWER: HELD
+		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B))
+		{
+			setUpperLowerIntake(-0.5 * MAX_VOLTAGE);
+			setSwitcherIntake(0.5 * MAX_VOLTAGE, false, true);
+			isIntakeSpinningForward = false;
+			isIntakeSpinningBackward = true;
 		}
+		if (controller.get_digital_new_release(pros::E_CONTROLLER_DIGITAL_B))
+		{
+			isIntakeSpinningForward = false;
+			isIntakeSpinningBackward = false;
+			setIntake(0);
+		}
+
+		//X = DESCORE MACRO
+		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
+			//
+		}
+		
+		//Y = DESCORE MACRO
+		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
+			translate(250);
+			pros::delay(1000);
+			setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
+			pros::delay(1000);
+			setDrive(0, 0);
+		}
+
 
 		//DOWN = SWITCHER DIRECTION BACKWARDS: SEPARATE BUTTON TOGGLE
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
@@ -667,26 +688,20 @@ void opcontrol(){
 			}
 		}
 
-		//LEFT = SPIN INTAKE BACKWARDS SLOWER: HELD
-		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT))
-		{
-			setUpperLowerIntake(-0.5 * MAX_VOLTAGE);
-			setSwitcherIntake(0.5 * MAX_VOLTAGE, false, true);
-			isIntakeSpinningForward = false;
-			isIntakeSpinningBackward = true;
-		}
-		if (controller.get_digital_new_release(pros::E_CONTROLLER_DIGITAL_LEFT))
-		{
-			isIntakeSpinningForward = false;
-			isIntakeSpinningBackward = false;
-			setIntake(0);
+		//LEFT = SWITCHER DIRECTION FORWARD: SEPARATE BUTTON TOGGLE
+		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)){
+			shouldSwitcherSpinFoward = true;
+			shouldSwitcherSpinBackward = false;
+			if ((isIntakeSpinningForward || isIntakeSpinningBackward)){	
+				setSwitcherIntake(MAX_VOLTAGE, shouldSwitcherSpinFoward, shouldSwitcherSpinBackward);
+			}
 		}
 
-		//RIGHT = SPIN INTAKE BACKWARDS SLOWER: HELD
+		//RIGHT = TOP GOAL SCORE: HOLD
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT))
 		{
-			setUpperLowerIntake(-0.5 * MAX_VOLTAGE);
-			setSwitcherIntake(0.5 * MAX_VOLTAGE, false, true);
+			setUpperLowerIntake(MAX_VOLTAGE);
+			setSwitcherIntake(0.8 * MAX_VOLTAGE, false, true);
 			isIntakeSpinningForward = false;
 			isIntakeSpinningBackward = true;
 		}
