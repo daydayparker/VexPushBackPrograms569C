@@ -39,16 +39,6 @@ void display_img_from_file(const void * src){
 }
 */
 
-//STATE-TRACKING BOOLEANS
-bool isDescorePneumaticExtended;
-bool isDoubleParkPneumaticExtended;
-bool isMatchLoadPneumaticExtended;
-bool isIntakeSpinningForward;
-bool isIntakeSpinningBackward;
-bool shouldSwitcherSpinFoward;
-bool shouldSwitcherSpinBackward;
-bool isDescoreMacroRunning;
-
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -58,18 +48,7 @@ bool isDescoreMacroRunning;
 
 void initialize() {
 	//PUT AWESOME TEXT ON THE CONTROLLER SCREEN
-	//controller.print(0, 0, "By: %s", "daydayparker");
-
-
-	//ASSIGN VALUES TO STATE-TRACKING BOOLEANS
-	isDescorePneumaticExtended = false;
-	isDoubleParkPneumaticExtended = false;
-	isMatchLoadPneumaticExtended = false;
-	isIntakeSpinningForward = false;
-	isIntakeSpinningBackward = false;
-	shouldSwitcherSpinFoward = true;
-	shouldSwitcherSpinBackward = false;
-	isDescoreMacroRunning = true;
+	controller.print(0, 0, "By: %s", "daydayparker");
 
 	//SET MOTOR BRAKE TYPES
 	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_BRAKE);
@@ -123,9 +102,9 @@ void autonomous() {
 	//safeRightMidMatchAuton(); //4
 	//skillsAutonRoute1(); // none
 	//soloMatchAuton(); none
-	skillsAutonRoute2(); //6
+	//skillsAutonRoute2(); //6
 	//spinIntakeAuton(); //7
-	//johnTesting(); //8
+	johnTesting(); //8
 }
 
 /**
@@ -170,14 +149,8 @@ void opcontrol(){
 
 		//X = DESCORE MACRO
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
-			double initialAngle = inertialSensor.get_rotation();
-			int basisAngle = std::round(initialAngle / 180) * 180;
-			rotate(basisAngle);
-			translate(600);
-			rotate(basisAngle - 45);
-			translate(-725);
-			rotate(basisAngle);
-			translate(-700);
+			isDescoreMacroRunning = !isDescoreMacroRunning;
+			pros::Task macro_task(descoreMacro);
 		}
 		
 		//Y = DESCORE MACRO

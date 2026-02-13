@@ -78,6 +78,7 @@ void opcontrol(void);
 #include "subsystem_headers/intake.hpp"
 #include "subsystem_headers/macros.hpp"
 #include "subsystem_headers/pneumatics.hpp"
+#include "subsystem_headers/states.hpp"
 
 /**
  * You can add C++-only headers here

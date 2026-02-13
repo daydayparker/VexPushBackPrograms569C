@@ -53,7 +53,7 @@ void setDriveByDriver(){
 }
 
 //AUTONOMOUS FUNCTIONS
-void rotate(int degrees){
+void rotate(int degrees, bool macroBoolean){
     //PID VARIABLES
     double error;
     double previousError = 0;
@@ -74,7 +74,7 @@ void rotate(int degrees){
     int safetyExitCounter = 0;
 
     //ROBOT ROTATING LOOP
-    while (exitCounter < ROTATIONAL_ERROR_EXIT) //15
+    while (exitCounter < ROTATIONAL_ERROR_EXIT && macroBoolean)
     {
         //EXIT LOOP LOGIC: ERROR
         if (fabs(error) < ROTATION_PRECISION){
@@ -129,7 +129,7 @@ void shake(int shakes, double firstVoltage, double secondVoltage, int shakeDurat
     setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_BRAKE);
 }
 
-void translate(int displacement, bool usesDistanceSensor){
+void translate(int displacement, bool usesDistanceSensor, bool macroBoolean){
     //SETTING UP WHILE LOOP
     int waitTime;
     if (!usesDistanceSensor){
@@ -170,7 +170,7 @@ void translate(int displacement, bool usesDistanceSensor){
     //EXIT LOOP SETUP
     int safetyExitCounter = 0;
 
-    while (fabs(error) > TRANSLATION_PRECISION)
+    while (fabs(error) > TRANSLATION_PRECISION && macroBoolean)
     {
         //INCREMENT COUNTER USED FOR SLEW RATE
         loopCounter++;
