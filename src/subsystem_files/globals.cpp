@@ -2,7 +2,9 @@
 
 //DRIVE MOTORS
 //{FRONT, MIDDLE, BACK}
-pros::MotorGroup leftDriveMotorGroup({-19, -11, -9}, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
+//{-19, -11, -9}
+//{20, 10, 12}
+pros::MotorGroup leftDriveMotorGroup({-18, -16, -4}, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
 pros::MotorGroup rightDriveMotorGroup({20, 10, 12}, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
 
 //INTAKE MOTORS

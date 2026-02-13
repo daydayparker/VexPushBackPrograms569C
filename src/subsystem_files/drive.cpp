@@ -213,7 +213,7 @@ void translate(int displacement, bool usesDistanceSensor){
         double angleAdjustment = angleError * TKA; 
 
         //SEND THE CHOSEN VOLTAGE TO THE MOTORS
-        setDrive(driveMotorVoltage - angleAdjustment * 0, driveMotorVoltage + angleAdjustment * 0);
+        setDrive(driveMotorVoltage - angleAdjustment, driveMotorVoltage + angleAdjustment);
 
         //DELAY FOR LOOPING
         pros::delay(waitTime);

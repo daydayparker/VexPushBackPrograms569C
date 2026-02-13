@@ -517,6 +517,7 @@ void skillsAutonRoute1(){
 }
 
 void skillsAutonRoute2(){
+
 	//MOVING TOWARDS MATCH LOADER
 	translate(1500);
 
@@ -543,12 +544,14 @@ void skillsAutonRoute2(){
 
 	//MOVE TOWARDS LEFT LONG GOAL
 	rotate(90);
-	translate(-900);
+	translate(-700);
 	setMatchLoadPneumatic(false);
-	rotate(185);
-	translate(4250);
+	rotate(0);
+	translate(-4450); //4300
+	//pros::delay(1000);
+	//translate(500, true);
 
-	//ALIGN WITH LEFT LONG GOAL
+ 	//ALIGN WITH LEFT LONG GOAL
 	rotate(90);
 	translate(-1000);
 	setDrive(-0.35 * MAX_VOLTAGE, -0.35 * MAX_VOLTAGE);
@@ -566,14 +569,14 @@ void skillsAutonRoute2(){
 	pros::delay(3250);
 
 	//MOVE TOWARDS LEFT MATCH LOADER
-	rotate(88); //87 = TOO LEFT
+	rotate(87);//BECAUSE FIELDS ARE SLIGHTLY OFF
 	setMatchLoadPneumatic(true);
 	translate(1000);
 	setDescorePneumatic(true);
 	shake(6, 0.5 * MAX_VOLTAGE, -0.25 * MAX_VOLTAGE, 500, 100);
 
 	//ALIGN WITH LEFT LONG GOAL AGAIN
-	rotate(90);
+	rotate(87);//BECAUSE FIELDS ARE SLIGHTLY OFF
 	translate(-1000);
 	setMatchLoadPneumatic(false);
 	setDrive(-0.35 * MAX_VOLTAGE, -0.35 * MAX_VOLTAGE);
@@ -619,9 +622,9 @@ void autonomous() {
 	//safeRightMidMatchAuton(); //4
 	//skillsAutonRoute1(); // none
 	//soloMatchAuton(); none
-	//skillsAutonRoute2(); //6
+	skillsAutonRoute2(); //6
 	//spinIntakeAuton(); //7
-	johnTesting(); //8
+	//johnTesting(); //8
 }
 
 /**
