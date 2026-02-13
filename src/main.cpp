@@ -151,25 +151,13 @@ void opcontrol(){
 
 		//X = DESCORE MACRO
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
-			pros::Task macro_task_test(descoreMacro);
-			printf(0, 0, "%s", macro_task_test.get_name());
-			macro_task_test.suspend();
 			if (!isDescoreMacroRunning){
 				isDescoreMacroRunning = true;
-				macro_task_test.resume();
-			}
-			else{
-				isDescoreMacroRunning = false;
-				macro_task_test.remove();
-			}
-			/*
-			if (!isDescoreMacroRunning){
 				pros::Task macro_task(descoreMacro);
 			}
 			else{
 				isDescoreMacroRunning = false;
 			}
-			*/
 		}
 		
 		//Y = DESCORE MACRO
