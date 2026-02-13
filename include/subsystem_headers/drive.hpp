@@ -12,6 +12,6 @@ int sign(double number);
 void setDriveByDriver();
 
 //AUTONOMOUS FUNCTIONS
-void rotate(int degrees, bool macroBoolean = true);
+void rotate(int degrees, bool* macroBoolean = &ALWAYS_TRUE);
 void shake(int shakes, double firstVoltage, double secondVoltage, int shakeDuration, int coolDown);
-void translate(int displacement, bool usesDistanceSensor = false, bool macroBoolean = true);
+void translate(int displacement, bool* macroBoolean = &ALWAYS_TRUE, bool usesDistanceSensor = false);

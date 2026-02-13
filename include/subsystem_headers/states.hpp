@@ -2,12 +2,12 @@
 
 ////STATE-BOOLEANS
 //MACRO-BOOLEANS
-bool isDescoreMacroRunning = false;
+extern bool isDescoreMacroRunning;
 //STATE-TRACKING BOOLEANS
-bool isDescorePneumaticExtended = false;
-bool isDoubleParkPneumaticExtended = false;
-bool isMatchLoadPneumaticExtended = false;
-bool isIntakeSpinningForward = false;
-bool isIntakeSpinningBackward = false;
-bool shouldSwitcherSpinFoward = true;
-bool shouldSwitcherSpinBackward = false;
+extern bool isDescorePneumaticExtended;
+extern bool isDoubleParkPneumaticExtended;
+extern bool isMatchLoadPneumaticExtended;
+extern bool isIntakeSpinningForward;
+extern bool isIntakeSpinningBackward;
+extern bool shouldSwitcherSpinFoward;
+extern bool shouldSwitcherSpinBackward;

@@ -2,7 +2,7 @@
 
 //AUTONOMOUS PID TUNING CONSTANTS
 ////TRANSLATION CONSTANTS
-const double TKP;
+const double TKP = 0.1;
 const double TKI = 0;
 const double TKD = 0.025;
 const double TKA = 6;
@@ -40,8 +40,3 @@ const int NUMBER_OF_MOTORS = 6;
 const int ANALOG_DEAD_ZONE = 20;
 const int ROTATION_PRECISION = 1;
 const int TRANSLATION_PRECISION = 5;
-
-
-
-
-

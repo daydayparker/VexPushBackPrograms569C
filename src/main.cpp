@@ -39,6 +39,8 @@ void display_img_from_file(const void * src){
 }
 */
 
+
+
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -97,14 +99,14 @@ void competition_initialize() {
 
 void autonomous() {
 	//leftMatchAuton(); //1
-	//rightMidMatchAuton(); //2
+	rightMidMatchAuton(); //2
 	//rightNoMidMatchAuton(); //3
 	//safeRightMidMatchAuton(); //4
 	//skillsAutonRoute1(); // none
 	//soloMatchAuton(); none
 	//skillsAutonRoute2(); //6
 	//spinIntakeAuton(); //7
-	johnTesting(); //8
+	//johnTesting(); //8
 }
 
 /**

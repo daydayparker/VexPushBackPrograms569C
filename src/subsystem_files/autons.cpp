@@ -333,7 +333,7 @@ void skillsAutonRoute1(){
 	pros::delay(625);
 
 	//MAKE ROOM FOR MATCH LOADER
-	translate(-75, 2);
+	translate(-75);
 	pros::delay(100);
 
 	//RETRIEVE BALLS FROM CLOSE LEFT MATCH LOADER
@@ -416,7 +416,7 @@ void skillsAutonRoute2(){
 	pros::delay(625);
 
 	//MAKE ROOM FOR MATCH LOADER
-	translate(-75, 2);
+	translate(-75);
 	pros::delay(100);
 
 	//RETRIEVE BALLS FROM CLOSE RIGHT MATCH LOADER
