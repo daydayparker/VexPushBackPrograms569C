@@ -2,44 +2,44 @@
 
 //AUTONOMOUS PID TUNING CONSTANTS
 ////TRANSLATION CONSTANTS
-const double TKP;
-const double TKI = 0;
-const double TKD = 0.025;
-const double TKA = 6;
-const double TRANSLATION_ACCELERATION = 4;
-const double TRANSLATIONAL_SLEW_RATE_THRESHOLD = 27;
-const double TRANSLATIONAL_MINIMUM_DERIVATIVE = 0.1;
-const int TRANSLATIONAL_DERIVATIVE_EXIT = 5;
-////ROTATIONAL CONSTANTS
-const double RKP = 4;
-const double RKI = 0;
-const double RKD = 28;
-const double ROTATIONAL_ACCELERATION = 12;
-const double ROTATIONAL_SLEW_RATE_THRESHOLD = 27;
-const double ROTATIONAL_MINIMUM_DERIVATIVE = 0.1;
-const int ROTATIONAL_ERROR_EXIT = 15;
-const int ROTATIONAL_DERIVATIVE_EXIT = 30;
+extern const double TKP;
+extern const double TKI;
+extern const double TKD;
+extern const double TKA;
+extern const double TRANSLATION_ACCELERATION;
+extern const double TRANSLATIONAL_SLEW_RATE_THRESHOLD;
+extern const double TRANSLATIONAL_MINIMUM_DERIVATIVE;
+extern const int TRANSLATIONAL_DERIVATIVE_EXIT;
+////ROTATIONAL extern constANTS
+extern const double RKP;
+extern const double RKI;
+extern const double RKD;
+extern const double ROTATIONAL_ACCELERATION;
+extern const double ROTATIONAL_SLEW_RATE_THRESHOLD;
+extern const double ROTATIONAL_MINIMUM_DERIVATIVE;
+extern const int ROTATIONAL_ERROR_EXIT;
+extern const int ROTATIONAL_DERIVATIVE_EXIT;
 
 //SPECIAL BOOLEANS
-bool ALWAYS_TRUE = true;
+extern bool ALWAYS_TRUE;
 
 //CONVERSION CONSTANTS
-const double MILLIMETERS_TO_INCHES= 0.0393701;
+extern const double MILLIMETERS_TO_INCHES;
 
-//DURATION CONSTANTS
+//DURATION  CONSTANTS
 //https://www.vexforum.com/t/v5-distance-sensor-technical-details/88482/8
 //DISTANCE SENSOR FREQUENCY IS ~30 HZ: jpearman
-const int WHILE_LOOP_DELAY_DURATION = 10;
-const int DISTANCE_SENSOR_DELAY = 40;
+extern const int WHILE_LOOP_DELAY_DURATION;
+extern const int DISTANCE_SENSOR_DELAY;
 
 //MOTOR CONSTANTS
-const int MAX_VOLTAGE = 127;
-const int NUMBER_OF_MOTORS = 6;
+extern const int MAX_VOLTAGE;
+extern const int NUMBER_OF_MOTORS;
 
 //PRECISION CONSTANTS
-const int ANALOG_DEAD_ZONE = 20;
-const int ROTATION_PRECISION = 1;
-const int TRANSLATION_PRECISION = 5;
+extern const int ANALOG_DEAD_ZONE;
+extern const int ROTATION_PRECISION;
+extern const int TRANSLATION_PRECISION;
 
 
 
