@@ -609,7 +609,7 @@ void spinIntakeAuton(){
 }
 
 void johnTesting(){
-	translate(4000);
+	translate(2000);
 }
 
 void autonomous() {
@@ -666,7 +666,14 @@ void opcontrol(){
 
 		//X = DESCORE MACRO
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
-			//
+			double initialAngle = inertialSensor.get_rotation();
+			int basisAngle = std::round(initialAngle / 180) * 180;
+			rotate(basisAngle);
+			translate(600);
+			rotate(basisAngle - 45);
+			translate(-725);
+			rotate(basisAngle);
+			translate(-700);
 		}
 		
 		//Y = DESCORE MACRO

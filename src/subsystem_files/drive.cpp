@@ -53,7 +53,7 @@ void setDriveByDriver(){
 }
 
 //AUTONOMOUS FUNCTIONS
-void rotate(int degrees, double KP, double KI, double KD, double acceleration, double slewRateThreshold){
+void rotate(int degrees){
     //PID VARIABLES
     double error;
     double previousError = 0;
@@ -74,7 +74,7 @@ void rotate(int degrees, double KP, double KI, double KD, double acceleration, d
     int safetyExitCounter = 0;
 
     //ROBOT ROTATING LOOP
-    while (exitCounter < 5) //15
+    while (exitCounter < ROTATIONAL_ERROR_EXIT) //15
     {
         //EXIT LOOP LOGIC: ERROR
         if (fabs(error) < ROTATION_PRECISION){
@@ -94,16 +94,15 @@ void rotate(int degrees, double KP, double KI, double KD, double acceleration, d
         previousError = error;
 
         //EXIT LOOP LOGIC: DERIVATIVE
-        if (fabs(derivative) < 0.1){ //0.05 // 0.10
+        if (fabs(derivative) < ROTATIONAL_MINIMUM_DERIVATIVE){
             safetyExitCounter++;
         }
-        if (safetyExitCounter > 5){ //30
+        if (safetyExitCounter > ROTATIONAL_DERIVATIVE_EXIT){
             break;
         }
 
-
         //CALCULATE THE MOTOR POWER FROM PID
-        int voltageFromPropotionalIntegralDerivative = KP * error + KI * integral + KD * derivative;
+        int voltageFromPropotionalIntegralDerivative = RKP * error + RKI * integral + RKD * derivative;
 
         //SEND THE CHOSEN VOLTAGE TO THE MOTORS
         setDrive(voltageFromPropotionalIntegralDerivative, -voltageFromPropotionalIntegralDerivative);
@@ -130,7 +129,16 @@ void shake(int shakes, double firstVoltage, double secondVoltage, int shakeDurat
     setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_BRAKE);
 }
 
-void translate(int displacement, double KP, double KI, double KD, double KA, double acceleration, double slewRateThreshold){
+void translate(int displacement, bool usesDistanceSensor){
+    //SETTING UP WHILE LOOP
+    int waitTime;
+    if (!usesDistanceSensor){
+        waitTime = WHILE_LOOP_DELAY_DURATION;
+    }
+    else{
+        waitTime = DISTANCE_SENSOR_DELAY;
+    }
+
     //RESETTING DRIVE ENCODERS
     resetDriveEncoders();
 
@@ -145,7 +153,12 @@ void translate(int displacement, double KP, double KI, double KD, double KA, dou
     int driveMotorVoltage = 0;
 
     //INITIALIZING ERROR
-    error = fabs(displacement) - fabs(averageDriveMotorEncoderValue);
+    if (!usesDistanceSensor){
+        error = fabs(displacement) - fabs(averageDriveMotorEncoderValue);
+    }
+    else{
+       error = displacement - distanceSensor.get_distance();
+    }
 
     //SLEW RATE VARIABLES AND CONSTANTS
     int loopCounter = 0;
@@ -163,28 +176,29 @@ void translate(int displacement, double KP, double KI, double KD, double KA, dou
         loopCounter++;
 
         //CALCULATE VOLTAGE FROM SLEW RATE
-        double voltageFromSlewRate = DIRECTION * (loopCounter * acceleration + slewRateThreshold);
-
-        //RETRIEVE THE TOTAL THAT THE MOTORS HAVE ROTATED
-        averageDriveMotorEncoderValue = getAverageDriveEncoderValue();
+        double voltageFromSlewRate = DIRECTION * (loopCounter * TRANSLATION_ACCELERATION + TRANSLATIONAL_SLEW_RATE_THRESHOLD);
 
         //UPDATE PID VARIABLES
-        error = displacement - averageDriveMotorEncoderValue;
+        if (!usesDistanceSensor){
+            error = displacement - getAverageDriveEncoderValue();
+        }
+        else{
+            error = displacement - distanceSensor.get_distance();
+        }
         derivative = error - previousError;
         integral += error;
         previousError = error;
 
         //EXIT LOOP LOGIC
-        if (fabs(derivative) < 0.1){
+        if (fabs(derivative) < TRANSLATIONAL_MINIMUM_DERIVATIVE){
             safetyExitCounter++;
         }
-        if (safetyExitCounter > 3){ //5
+        if (safetyExitCounter > TRANSLATIONAL_DERIVATIVE_EXIT){
             break;
         }
 
-
         //CALCULATE THE MOTOR POWER FROM PID
-        double voltageFromPropotionalIntegralDerivative = KP * error + KI * integral + KD * derivative;
+        double voltageFromPropotionalIntegralDerivative = TKP * error + TKI * integral + TKD * derivative;
 
         //USE VOLTAGE FROM SLEW RATE IF IT IS LESS THAN VOLTAGE FROM PID
         if (fabs(voltageFromPropotionalIntegralDerivative) > fabs(voltageFromSlewRate)){
@@ -196,87 +210,15 @@ void translate(int displacement, double KP, double KI, double KD, double KA, dou
 
         //CALCULATE ANGLE ERROR
         double angleError = inertialSensor.get_rotation() - initialAngle;
-        double angleAdjustment = angleError * KA; 
+        double angleAdjustment = angleError * TKA; 
 
         //SEND THE CHOSEN VOLTAGE TO THE MOTORS
-        setDrive(driveMotorVoltage - angleAdjustment, driveMotorVoltage + angleAdjustment);
+        setDrive(driveMotorVoltage - angleAdjustment * 0, driveMotorVoltage + angleAdjustment * 0);
 
         //DELAY FOR LOOPING
-        pros::delay(WHILE_LOOP_DELAY_DURATION);
+        pros::delay(waitTime);
     }
-    
 
     //STOP MOVING
     setDrive(0, 0);
 }
-
-
-//
-void translateWithDistanceSensor(int distance, double KP, double KI, double KD, double KA, double acceleration, double slewRateThreshold){
-    //PID VARIABLES
-    double error;
-    double previousError = 0;
-    double derivative;
-    double integral = 0;
-
-    //DRIVE MOTOR VARIABLES
-    int driveMotorVoltage;
-
-    //INITIALIZING ERROR
-    error = distance - distanceSensor.get_distance();
-
-    //SLEW RATE VARIABLES AND CONSTANTS
-    int loopCounter = 0;
-    const int DIRECTION = sign(error);
-
-    int safetyExitCounter = 0;
-
-    while (fabs(error) > TRANSLATION_PRECISION)
-    {
-        //INCREMENT COUNTER USED FOR SLEW RATE
-        loopCounter++;
-
-        //CALCULATE VOLTAGE FROM SLEW RATE
-        double voltageFromSlewRate = DIRECTION * (loopCounter * acceleration + slewRateThreshold);
-
-        //UPDATE PID VARIABLES
-        error = distance - distanceSensor.get_distance();
-        derivative = error - previousError;
-        integral += error;
-        previousError = error;
-
-        //EXIT LOOP LOGIC: DERIVATIVE
-        if (fabs(derivative) < 0.1){
-            safetyExitCounter++;
-        }
-        if (safetyExitCounter > 3){ //5
-            break;
-        }
-
-
-        //CALCULATE THE MOTOR POWER FROM PID
-        double voltageFromPropotionalIntegralDerivative = KP * error + KI * integral + KD * derivative;
-
-        //USE VOLTAGE FROM SLEW RATE IF IT IS LESS THAN VOLTAGE FROM PID
-        if (fabs(voltageFromPropotionalIntegralDerivative) > fabs(voltageFromSlewRate)){
-            driveMotorVoltage = voltageFromSlewRate;
-        }
-        else{
-            driveMotorVoltage = voltageFromPropotionalIntegralDerivative;
-        }
-
-        //SEND THE CHOSEN VOLTAGE TO THE MOTORS
-        setDrive(driveMotorVoltage, driveMotorVoltage);
-
-        //DELAY FOR LOOPING
-        pros::delay(DISTANCE_SENSOR_DELAY);
-    }
-    
-
-    //STOP MOVING
-    setDrive(0, 0);
-}
-
-/*
-Not-Continuous means that I would need to have odometry to calculate the rotation of the motors to inches.
-*/

@@ -2,18 +2,24 @@
 
 //AUTONOMOUS PID TUNING CONSTANTS
 ////TRANSLATION CONSTANTS
-const double TKP = 4;
+const double TKP = 0.1;
 const double TKI = 0;
-const double TKD = 28;
+const double TKD = 0.025;
 const double TKA = 0;
-const double translationalAccerelation = 4;
-const double translationalSlewRateThreshold = 27;
+const double TRANSLATION_ACCELERATION = 4;
+const double TRANSLATIONAL_SLEW_RATE_THRESHOLD = 27;
+const double TRANSLATIONAL_MINIMUM_DERIVATIVE = 0.1;
+const int TRANSLATIONAL_DERIVATIVE_EXIT = 5;
 ////ROTATIONAL CONSTANTS
-const double RKP = 0.1;
+const double RKP = 4;
 const double RKI = 0;
-const double RKD = 0.025;
-const double rotationalAcceleration = 12;
-const double rotationalSlewRateThreshold = 27;
+const double RKD = 28;
+const double ROTATIONAL_ACCELERATION = 12;
+const double ROTATIONAL_SLEW_RATE_THRESHOLD = 27;
+const double ROTATIONAL_MINIMUM_DERIVATIVE = 0.1;
+const int ROTATIONAL_ERROR_EXIT = 15;
+const int ROTATIONAL_DERIVATIVE_EXIT = 30;
+
 
 //CONVERSION CONSTANTS
 const double MILLIMETERS_TO_INCHES= 0.0393701;

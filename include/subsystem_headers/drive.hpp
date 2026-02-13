@@ -14,5 +14,4 @@ void setDriveByDriver();
 //AUTONOMOUS FUNCTIONS
 void rotate(int degrees);
 void shake(int shakes, double firstVoltage, double secondVoltage, int shakeDuration, int coolDown);
-void translate(int displacement);
-void translateWithDistanceSensor(int distance);
+void translate(int displacement, bool usesDistanceSensor = false);
