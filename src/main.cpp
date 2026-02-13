@@ -609,7 +609,7 @@ void spinIntakeAuton(){
 }
 
 void johnTesting(){
-	translateWithDistanceSensor(400);
+	translate(4000);
 }
 
 void autonomous() {
@@ -671,11 +671,14 @@ void opcontrol(){
 		
 		//Y = DESCORE MACRO
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
-			translate(250);
-			pros::delay(1000);
-			setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
-			pros::delay(1000);
+			isMatchLoadPneumaticExtended = true;
+			setMatchLoadPneumatic(isMatchLoadPneumaticExtended);
+			translate(-250);
+			setDrive(MAX_VOLTAGE, 0.9 * MAX_VOLTAGE);
+			pros::delay(700);
 			setDrive(0, 0);
+			isMatchLoadPneumaticExtended = false;
+			setMatchLoadPneumatic(isMatchLoadPneumaticExtended);
 		}
 
 
@@ -701,7 +704,7 @@ void opcontrol(){
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT))
 		{
 			setUpperLowerIntake(MAX_VOLTAGE);
-			setSwitcherIntake(0.8 * MAX_VOLTAGE, false, true);
+			setSwitcherIntake(0.65 * MAX_VOLTAGE, false, true);
 			isIntakeSpinningForward = false;
 			isIntakeSpinningBackward = true;
 		}

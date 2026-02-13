@@ -76,6 +76,7 @@ void rotate(int degrees, double KP, double KI, double KD, double acceleration, d
     //ROBOT ROTATING LOOP
     while (exitCounter < 5) //15
     {
+        //EXIT LOOP LOGIC: ERROR
         if (fabs(error) < ROTATION_PRECISION){
             exitCounter++;
         }
@@ -92,7 +93,7 @@ void rotate(int degrees, double KP, double KI, double KD, double acceleration, d
         integral += error;
         previousError = error;
 
-        
+        //EXIT LOOP LOGIC: DERIVATIVE
         if (fabs(derivative) < 0.1){ //0.05 // 0.10
             safetyExitCounter++;
         }
@@ -116,10 +117,10 @@ void rotate(int degrees, double KP, double KI, double KD, double acceleration, d
     setDrive(0, 0);
 }
 
-void shake(int totalShakes, double firstVoltage, double secondVoltage, int shakeDuration, int coolDown)
+void shake(int shakes, double firstVoltage, double secondVoltage, int shakeDuration, int coolDown)
 {
     setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_COAST);
-    for (int shakeCounter = 0; shakeCounter < totalShakes; shakeCounter++)
+    for (int shakeCounter = 0; shakeCounter < shakes; shakeCounter++)
     {
         setDrive(firstVoltage, firstVoltage);
         pros::delay(shakeDuration);
@@ -129,7 +130,7 @@ void shake(int totalShakes, double firstVoltage, double secondVoltage, int shake
     setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_BRAKE);
 }
 
-void translate(int displacement, double KP, double KI, double KD, double acceleration, double slewRateThreshold){
+void translate(int displacement, double KP, double KI, double KD, double KA, double acceleration, double slewRateThreshold){
     //RESETTING DRIVE ENCODERS
     resetDriveEncoders();
 
@@ -150,6 +151,10 @@ void translate(int displacement, double KP, double KI, double KD, double acceler
     int loopCounter = 0;
     const int DIRECTION = fabs(displacement) / displacement;
 
+    //INITIAL ANGLE
+    double initialAngle = inertialSensor.get_rotation();
+
+    //EXIT LOOP SETUP
     int safetyExitCounter = 0;
 
     while (fabs(error) > TRANSLATION_PRECISION)
@@ -169,9 +174,7 @@ void translate(int displacement, double KP, double KI, double KD, double acceler
         integral += error;
         previousError = error;
 
-
-        controller.print(0, 0, "d: %f", derivative);
-
+        //EXIT LOOP LOGIC
         if (fabs(derivative) < 0.1){
             safetyExitCounter++;
         }
@@ -191,8 +194,12 @@ void translate(int displacement, double KP, double KI, double KD, double acceler
             driveMotorVoltage = voltageFromPropotionalIntegralDerivative;
         }
 
+        //CALCULATE ANGLE ERROR
+        double angleError = inertialSensor.get_rotation() - initialAngle;
+        double angleAdjustment = angleError * KA; 
+
         //SEND THE CHOSEN VOLTAGE TO THE MOTORS
-        setDrive(driveMotorVoltage, driveMotorVoltage);
+        setDrive(driveMotorVoltage - angleAdjustment, driveMotorVoltage + angleAdjustment);
 
         //DELAY FOR LOOPING
         pros::delay(WHILE_LOOP_DELAY_DURATION);
@@ -205,7 +212,7 @@ void translate(int displacement, double KP, double KI, double KD, double acceler
 
 
 //
-void translateWithDistanceSensor(int distance, double KP, double KI, double KD, double acceleration, double slewRateThreshold){
+void translateWithDistanceSensor(int distance, double KP, double KI, double KD, double KA, double acceleration, double slewRateThreshold){
     //PID VARIABLES
     double error;
     double previousError = 0;
@@ -217,7 +224,6 @@ void translateWithDistanceSensor(int distance, double KP, double KI, double KD, 
 
     //INITIALIZING ERROR
     error = distance - distanceSensor.get_distance();
-    std::printf("%f", error);
 
     //SLEW RATE VARIABLES AND CONSTANTS
     int loopCounter = 0;
@@ -227,9 +233,6 @@ void translateWithDistanceSensor(int distance, double KP, double KI, double KD, 
 
     while (fabs(error) > TRANSLATION_PRECISION)
     {
-        controller.print(0, 0, "%f", error);
-        std::printf("%f", error);
-
         //INCREMENT COUNTER USED FOR SLEW RATE
         loopCounter++;
 
@@ -242,9 +245,7 @@ void translateWithDistanceSensor(int distance, double KP, double KI, double KD, 
         integral += error;
         previousError = error;
 
-
-        controller.print(0, 0, "d: %f", derivative);
-
+        //EXIT LOOP LOGIC: DERIVATIVE
         if (fabs(derivative) < 0.1){
             safetyExitCounter++;
         }
