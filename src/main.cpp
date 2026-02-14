@@ -47,15 +47,26 @@ void display_img_from_file(const void * src){
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
-extern int color;
+
+int color = 0;
 
 void initialize() {
 	//PUT AWESOME TEXT ON THE CONTROLLER SCREEN
-	controller.print(0, 0, "By: %s", "daydayparker");
+	//controller.print(0, 0, "By: %s", "daydayparker");
 
 	//SET MOTOR BRAKE TYPES
-	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_BRAKE);
+	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_HOLD);
 	allIntakeMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+
+	if (potentiometer.get_angle() < 125){
+		//BLUE
+		color = 0;
+	}
+	else{
+		//RED
+		color = 1;
+	}
+	controller.print(0, 0, (color) ? "red" : "blue");
 
 	//CALIBRATE THE INERTIAL SENSOR
 	inertialSensor.reset();
@@ -72,17 +83,7 @@ void initialize() {
  * the robot is enabled, this task will exit.
  */
 void disabled() {
-	while (true)
-	{
-		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
-			color = 0;
-		}
-		else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
-			color = 1;
-		}
-		controller.print(0, 0, (color) ? "red" : "blue");
-		pros::delay(10);
-	}
+	
 }
 
 /**
@@ -112,12 +113,12 @@ void competition_initialize() {
 
 void autonomous() {
 	//leftMatchAuton(); //1
-	rightMidMatchAuton(); //2
+	//rightMidMatchAuton(); //2
 	//rightNoMidMatchAuton(); //3
 	//safeRightMidMatchAuton(); //4
 	//skillsAutonRoute1(); // none
 	//soloMatchAuton(); none
-	//skillsAutonRoute2(); //6
+	skillsAutonRoute2(); //6
 	//spinIntakeAuton(); //7
 	//johnTesting(); //8
 }
@@ -141,8 +142,6 @@ void opcontrol(){
 	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_COAST);
 	pros::Task intakeTask(intakeLoop);
 
-	color = 0;
-
 	while (true){
 		pros::delay(WHILE_LOOP_DELAY_DURATION);
 
@@ -152,38 +151,6 @@ void opcontrol(){
 			setDoubleParkPneumatic(isDoubleParkPneumaticExtended);
 		}
 		
-		//X = DOUBLE PARK MACRO
-		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
-			
-		}
-		
-		/*
-		//X = DESCORE MACRO
-		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
-			if (!isDescoreMacroRunning){
-				isDescoreMacroRunning = true;
-				
-			}
-			else{
-				isDescoreMacroRunning = false;
-			}
-		}
-		*/
-		
-		/*
-		//Y = DESCORE MACRO
-		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
-			isMatchLoadPneumaticExtended = true;
-			setMatchLoadPneumatic(isMatchLoadPneumaticExtended);
-			translate(-250);
-			setDrive(MAX_VOLTAGE, 0.9 * MAX_VOLTAGE);
-			pros::delay(700);
-			setDrive(0, 0);
-			isMatchLoadPneumaticExtended = false;
-			setMatchLoadPneumatic(isMatchLoadPneumaticExtended);
-		}
-		*/
-
 		//L1 = EXTEND / RETRACT DESCORE PNEUMATIC: TOGGLE
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)){
 			isDescorePneumaticExtended = !isDescorePneumaticExtended;

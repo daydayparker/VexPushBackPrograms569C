@@ -1,7 +1,8 @@
 #include "main.h"
 
 void descoreMacro(){
-    double initialAngle = inertialSensor.get_rotation();
+    /*
+	double initialAngle = inertialSensor.get_rotation();
 	int basisAngle = std::round(initialAngle / 180) * 180;
 	rotate(basisAngle, &isDescoreMacroRunning);
 	translate(600, &isDescoreMacroRunning);
@@ -10,4 +11,5 @@ void descoreMacro(){
 	rotate(basisAngle, &isDescoreMacroRunning);
 	translate(-700, &isDescoreMacroRunning);
 	isDescoreMacroRunning = false;
+	*/
 }

@@ -18,10 +18,18 @@ pros::MotorGroup upperLowerIntakeMotorGroup({8,6}, pros::v5::MotorGears::blue, p
 pros::Distance distanceSensor(17);
 pros::Imu inertialSensor(13);
 
+//OPTICAL
+pros::Optical opticalSensor(2);
+
 //PNEUMATICS
 pros::adi::DigitalOut descorePneumatic('A');
 pros::adi::DigitalOut matchLoadPneumatic('B');
 pros::adi::DigitalOut doubleParkPneumatic('H');
 
+//POTENTIOMETER
+pros::adi::Potentiometer potentiometer('C');
+
 //CONTROLLER
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
+//red 16 +-30
+//blue 190 +-30

@@ -53,7 +53,7 @@ void setDriveByDriver(){
 }
 
 //AUTONOMOUS FUNCTIONS
-void rotate(int degrees, bool* macroBoolean){
+void rotate(int degrees){
     //PID VARIABLES
     double error;
     double previousError = 0;
@@ -74,7 +74,7 @@ void rotate(int degrees, bool* macroBoolean){
     int safetyExitCounter = 0;
 
     //ROBOT ROTATING LOOP
-    while (exitCounter < ROTATIONAL_ERROR_EXIT && *macroBoolean)
+    while (exitCounter < ROTATIONAL_ERROR_EXIT)
     {
         //EXIT LOOP LOGIC: ERROR
         if (fabs(error) < ROTATION_PRECISION){
@@ -129,7 +129,7 @@ void shake(int shakes, double firstVoltage, double secondVoltage, int shakeDurat
     setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_BRAKE);
 }
 
-void translate(int displacement, bool* macroBoolean, bool usesDistanceSensor){
+void translate(int displacement, bool usesDistanceSensor, double KPAAA, double kP){
     //SETTING UP WHILE LOOP
     int waitTime;
     if (!usesDistanceSensor){
@@ -170,7 +170,7 @@ void translate(int displacement, bool* macroBoolean, bool usesDistanceSensor){
     //EXIT LOOP SETUP
     int safetyExitCounter = 0;
 
-    while (fabs(error) > TRANSLATION_PRECISION && *macroBoolean)
+    while (fabs(error) > TRANSLATION_PRECISION)
     {
         //INCREMENT COUNTER USED FOR SLEW RATE
         loopCounter++;
@@ -198,7 +198,7 @@ void translate(int displacement, bool* macroBoolean, bool usesDistanceSensor){
         }
 
         //CALCULATE THE MOTOR POWER FROM PID
-        double voltageFromPropotionalIntegralDerivative = TKP * error + TKI * integral + TKD * derivative;
+        double voltageFromPropotionalIntegralDerivative = kP * error + TKI * integral + TKD * derivative;
 
         //USE VOLTAGE FROM SLEW RATE IF IT IS LESS THAN VOLTAGE FROM PID
         if (fabs(voltageFromPropotionalIntegralDerivative) > fabs(voltageFromSlewRate)){
@@ -210,7 +210,7 @@ void translate(int displacement, bool* macroBoolean, bool usesDistanceSensor){
 
         //CALCULATE ANGLE ERROR
         double angleError = inertialSensor.get_rotation() - initialAngle;
-        double angleAdjustment = angleError * TKA; 
+        double angleAdjustment = angleError * KPAAA; 
 
         //SEND THE CHOSEN VOLTAGE TO THE MOTORS
         setDrive(driveMotorVoltage - angleAdjustment, driveMotorVoltage + angleAdjustment);

@@ -420,28 +420,28 @@ void skillsAutonRoute2(){
 	pros::delay(100);
 
 	//RETRIEVE BALLS FROM CLOSE RIGHT MATCH LOADER
+	//SCORING!!!!!!!!!
 	setIntake(MAX_VOLTAGE);
-	setDrive(0.4 * MAX_VOLTAGE, 0.4 * MAX_VOLTAGE);
-	pros::delay(250);
+	setDrive(0.3 * MAX_VOLTAGE, 0.3 * MAX_VOLTAGE);
+	pros::delay(1000);
 	setDrive(0, 0);
-	shake(6, 0.5 * MAX_VOLTAGE, -0.25 * MAX_VOLTAGE, 500, 100);
-	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
-	pros::delay(1750);
+	pros::delay(1000);
+	shake(2, MAX_VOLTAGE, 0, 250, 750);
 
 	//MOVE TOWARDS LEFT LONG GOAL
 	rotate(90);
 	translate(-700);
 	setMatchLoadPneumatic(false);
-	rotate(0);
-	translate(-4450); //4300
-	//pros::delay(1000);
-	//translate(500, true);
+	rotate(3); //0: offset because curve
+	setIntake(0); //prevent jams
+	translate(-4625, false, 0, 0.06); ///////////////////////////////////////////////////////////////////////////////////// 4500 - 4750
+	pros::delay(500);
 
  	//ALIGN WITH LEFT LONG GOAL
 	rotate(90);
 	translate(-1000);
-	setDrive(-0.35 * MAX_VOLTAGE, -0.35 * MAX_VOLTAGE);
-	pros::delay(250);
+	setDrive(-0.8 * MAX_VOLTAGE, -0.8 * MAX_VOLTAGE);
+	pros::delay(500);
 
 	//SCORE ON LEFT LONG GOAL
 	setDescorePneumatic(false);
@@ -459,7 +459,12 @@ void skillsAutonRoute2(){
 	setMatchLoadPneumatic(true);
 	translate(1000);
 	setDescorePneumatic(true);
-	shake(6, 0.5 * MAX_VOLTAGE, -0.25 * MAX_VOLTAGE, 500, 100);
+	//SCORING!!!!!!!!!
+	setDrive(0.3 * MAX_VOLTAGE, 0.3 * MAX_VOLTAGE);
+	pros::delay(1000);
+	setDrive(0, 0);
+	pros::delay(1000);
+	shake(2, MAX_VOLTAGE, 0, 250, 750);
 
 	//ALIGN WITH LEFT LONG GOAL AGAIN
 	rotate(87);//BECAUSE FIELDS ARE SLIGHTLY OFF
@@ -481,6 +486,19 @@ void skillsAutonRoute2(){
 	//ALIGN WITH PARKING ZONE
 	translate(600);
 	rotate(0);
+	translate(500);
+	rotate(45);
+	translate(1500);
+	rotate(0);
+	setMatchLoadPneumatic(true);
+	setIntake(-MAX_VOLTAGE);
+	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
+	pros::delay(800);
+	setDrive(0, 0);
+	
+	/*
+	translate(600);
+	rotate(0);
 	translate(2250);
 	rotate(90);
 	setDrive(0.5 * MAX_VOLTAGE, 0.5 * MAX_VOLTAGE);
@@ -490,6 +508,7 @@ void skillsAutonRoute2(){
 	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
 	pros::delay(3000);
 	setDrive(0, 0);
+	*/
 }
 
 void spinIntakeAuton(){
