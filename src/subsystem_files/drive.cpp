@@ -53,7 +53,7 @@ void setDriveByDriver(){
 }
 
 //AUTONOMOUS FUNCTIONS
-void rotate(int degrees){
+void rotate(int degrees, double kP, double kI, double kD, double acceleration, double slewRateThreshold){
     //PID VARIABLES
     double error;
     double previousError = 0;
@@ -102,7 +102,7 @@ void rotate(int degrees){
         }
 
         //CALCULATE THE MOTOR POWER FROM PID
-        int voltageFromPropotionalIntegralDerivative = RKP * error + RKI * integral + RKD * derivative;
+        int voltageFromPropotionalIntegralDerivative = kP * error + kI * integral + kD * derivative;
 
         //SEND THE CHOSEN VOLTAGE TO THE MOTORS
         setDrive(voltageFromPropotionalIntegralDerivative, -voltageFromPropotionalIntegralDerivative);
@@ -129,7 +129,7 @@ void shake(int shakes, double firstVoltage, double secondVoltage, int shakeDurat
     setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_BRAKE);
 }
 
-void translate(int displacement, bool usesDistanceSensor, double KPAAA, double kP){
+void translate(int displacement, bool usesDistanceSensor, double kP, double kI, double kD, double kA, double acceleration, double slewRateThreshold){
     //SETTING UP WHILE LOOP
     int waitTime;
     if (!usesDistanceSensor){
@@ -176,7 +176,7 @@ void translate(int displacement, bool usesDistanceSensor, double KPAAA, double k
         loopCounter++;
 
         //CALCULATE VOLTAGE FROM SLEW RATE
-        double voltageFromSlewRate = DIRECTION * (loopCounter * TRANSLATION_ACCELERATION + TRANSLATIONAL_SLEW_RATE_THRESHOLD);
+        double voltageFromSlewRate = DIRECTION * (loopCounter * acceleration + slewRateThreshold);
 
         //UPDATE PID VARIABLES
         if (!usesDistanceSensor){
@@ -198,7 +198,7 @@ void translate(int displacement, bool usesDistanceSensor, double KPAAA, double k
         }
 
         //CALCULATE THE MOTOR POWER FROM PID
-        double voltageFromPropotionalIntegralDerivative = kP * error + TKI * integral + TKD * derivative;
+        double voltageFromPropotionalIntegralDerivative = kP * error + kI * integral + kD * derivative;
 
         //USE VOLTAGE FROM SLEW RATE IF IT IS LESS THAN VOLTAGE FROM PID
         if (fabs(voltageFromPropotionalIntegralDerivative) > fabs(voltageFromSlewRate)){
@@ -210,7 +210,7 @@ void translate(int displacement, bool usesDistanceSensor, double KPAAA, double k
 
         //CALCULATE ANGLE ERROR
         double angleError = inertialSensor.get_rotation() - initialAngle;
-        double angleAdjustment = angleError * KPAAA; 
+        double angleAdjustment = angleError * kA; 
 
         //SEND THE CHOSEN VOLTAGE TO THE MOTORS
         setDrive(driveMotorVoltage - angleAdjustment, driveMotorVoltage + angleAdjustment);

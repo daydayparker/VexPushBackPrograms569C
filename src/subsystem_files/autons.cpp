@@ -426,21 +426,23 @@ void skillsAutonRoute2(){
 	pros::delay(1000);
 	setDrive(0, 0);
 	pros::delay(1000);
-	shake(2, MAX_VOLTAGE, 0, 250, 750);
+	shake(3, MAX_VOLTAGE, 0, 250, 750);
 
 	//MOVE TOWARDS LEFT LONG GOAL
 	rotate(90);
 	translate(-700);
 	setMatchLoadPneumatic(false);
 	rotate(3); //0: offset because curve
-	setIntake(0); //prevent jams
-	translate(-4625, false, 0, 0.06); ///////////////////////////////////////////////////////////////////////////////////// 4500 - 4750
+	setUpperLowerIntake(0);
+	pros::delay(250);
+	setSwitcherIntake(0);
+	translate(-4625, false, 0.06, 0, 0.025, 0); ///////////////////////////////////////////////////////////////////////////////////// 4500 - 4750
 	pros::delay(500);
 
  	//ALIGN WITH LEFT LONG GOAL
 	rotate(90);
 	translate(-1000);
-	setDrive(-0.8 * MAX_VOLTAGE, -0.8 * MAX_VOLTAGE);
+	setDrive(-MAX_VOLTAGE, -MAX_VOLTAGE);
 	pros::delay(500);
 
 	//SCORE ON LEFT LONG GOAL
@@ -452,7 +454,11 @@ void skillsAutonRoute2(){
 	setIntake(-MAX_VOLTAGE);
 	pros::delay(250);
 	setIntake(MAX_VOLTAGE);
-	pros::delay(3250);
+	pros::delay(2500);
+	setIntake(-MAX_VOLTAGE);
+	pros::delay(250);
+	setIntake(MAX_VOLTAGE);
+	pros::delay(3000);
 
 	//MOVE TOWARDS LEFT MATCH LOADER
 	rotate(87);//BECAUSE FIELDS ARE SLIGHTLY OFF
@@ -464,7 +470,7 @@ void skillsAutonRoute2(){
 	pros::delay(1000);
 	setDrive(0, 0);
 	pros::delay(1000);
-	shake(2, MAX_VOLTAGE, 0, 250, 750);
+	shake(3, MAX_VOLTAGE, 0, 250, 750);
 
 	//ALIGN WITH LEFT LONG GOAL AGAIN
 	rotate(87);//BECAUSE FIELDS ARE SLIGHTLY OFF
@@ -480,8 +486,11 @@ void skillsAutonRoute2(){
 	setIntake(-MAX_VOLTAGE);
 	pros::delay(250);
 	setIntake(MAX_VOLTAGE);
-	pros::delay(5000);
-	setIntake(0);
+	pros::delay(2500);
+	setIntake(-MAX_VOLTAGE);
+	pros::delay(250);
+	setIntake(MAX_VOLTAGE);
+	pros::delay(3000);
 
 	//ALIGN WITH PARKING ZONE
 	translate(600);
@@ -489,12 +498,17 @@ void skillsAutonRoute2(){
 	translate(500);
 	rotate(45);
 	translate(1500);
-	rotate(0);
+	rotate(20);
 	setMatchLoadPneumatic(true);
+	pros::delay(250);
 	setIntake(-MAX_VOLTAGE);
 	setDrive(MAX_VOLTAGE, MAX_VOLTAGE);
-	pros::delay(800);
+	pros::delay(700); // 800
 	setDrive(0, 0);
+	setMatchLoadPneumatic(false);
+	pros::delay(1000);
+	setDescorePneumatic(true);
+	setIntake(MAX_VOLTAGE);
 	
 	/*
 	translate(600);

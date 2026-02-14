@@ -2,20 +2,9 @@
 
 //AUTONOMOUS PID TUNING CONSTANTS
 ////TRANSLATION CONSTANTS
-extern const double TKP;
-extern const double TKI;
-extern const double TKD;
-extern const double TKA;
-extern const double TRANSLATION_ACCELERATION;
-extern const double TRANSLATIONAL_SLEW_RATE_THRESHOLD;
 extern const double TRANSLATIONAL_MINIMUM_DERIVATIVE;
 extern const int TRANSLATIONAL_DERIVATIVE_EXIT;
 ////ROTATIONAL extern constANTS
-extern const double RKP;
-extern const double RKI;
-extern const double RKD;
-extern const double ROTATIONAL_ACCELERATION;
-extern const double ROTATIONAL_SLEW_RATE_THRESHOLD;
 extern const double ROTATIONAL_MINIMUM_DERIVATIVE;
 extern const int ROTATIONAL_ERROR_EXIT;
 extern const int ROTATIONAL_DERIVATIVE_EXIT;
