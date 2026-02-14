@@ -5,6 +5,6 @@ void rightMidMatchAuton();
 void rightNoMidMatchAuton();
 void safeRightMidMatchAuton();
 void soloMatchAuton();
-void skillsAutonRoute2();
+void skillsAutonRoute();
 void spinIntakeAuton();
 void johnTesting();

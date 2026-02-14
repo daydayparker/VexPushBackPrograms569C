@@ -27,7 +27,7 @@ pros::adi::DigitalOut matchLoadPneumatic('B');
 pros::adi::DigitalOut doubleParkPneumatic('H');
 
 //POTENTIOMETER
-pros::adi::Potentiometer potentiometer('C');
+pros::adi::Potentiometer potentiometer('D');
 
 //CONTROLLER
 pros::Controller controller(pros::E_CONTROLLER_MASTER);

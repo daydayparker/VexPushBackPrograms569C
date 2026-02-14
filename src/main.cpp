@@ -48,16 +48,17 @@ void display_img_from_file(const void * src){
  * to keep execution time for this mode under a few seconds.
  */
 
-int color = 0;
+//REMEMBER UPDATE BLUE ONE TOO (PROGRAMS: 3 & 4)
+int color = 1;
 
 void initialize() {
 	//PUT AWESOME TEXT ON THE CONTROLLER SCREEN
-	//controller.print(0, 0, "By: %s", "daydayparker");
+	controller.print(0, 0, "By: %s", "daydayparker");
+	//pros::delay(1000);
+	//controller.print(0, 0, "Angle: %f", potentiometer.get_angle());
 
-	//SET MOTOR BRAKE TYPES
-	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_HOLD);
-	allIntakeMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
-
+	
+	/*
 	if (potentiometer.get_angle() < 125){
 		//BLUE
 		color = 0;
@@ -66,7 +67,13 @@ void initialize() {
 		//RED
 		color = 1;
 	}
+	*/
+	
 	controller.print(0, 0, (color) ? "red" : "blue");
+
+	//SET MOTOR BRAKE TYPES
+	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_HOLD);
+	allIntakeMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
 
 	//CALIBRATE THE INERTIAL SENSOR
 	inertialSensor.reset();
@@ -112,13 +119,24 @@ void competition_initialize() {
  */
 
 void autonomous() {
+	//PROGRAMS FOR TOURNAMENT
+	/*
+	1. BLUELEFT
+	2. REDLEFT
+	3. BLUEMIDRIGHT
+	4. REDMIDRIGHT
+	5. BLUENOMIDRIGHT
+	6. REDNOMIDRIGHT
+	7. SKILLS
+	*/
+
+	//ORIGINAL STUFF
 	//leftMatchAuton(); //1
 	//rightMidMatchAuton(); //2
 	//rightNoMidMatchAuton(); //3
 	//safeRightMidMatchAuton(); //4
-	//skillsAutonRoute1(); // none
 	//soloMatchAuton(); none
-	skillsAutonRoute2(); //6
+	//skillsAutonRoute(); //6
 	//spinIntakeAuton(); //7
 	//johnTesting(); //8
 }
