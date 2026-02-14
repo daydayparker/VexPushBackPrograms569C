@@ -47,6 +47,7 @@ void display_img_from_file(const void * src){
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
+extern int color;
 
 void initialize() {
 	//PUT AWESOME TEXT ON THE CONTROLLER SCREEN
@@ -70,7 +71,19 @@ void initialize() {
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() {}
+void disabled() {
+	while (true)
+	{
+		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
+			color = 0;
+		}
+		else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
+			color = 1;
+		}
+		controller.print(0, 0, (color) ? "red" : "blue");
+		pros::delay(10);
+	}
+}
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
@@ -122,8 +135,13 @@ void autonomous() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
+
+
 void opcontrol(){
 	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_COAST);
+	pros::Task intakeTask(intakeLoop);
+
+	color = 0;
 
 	while (true){
 		pros::delay(WHILE_LOOP_DELAY_DURATION);
@@ -133,33 +151,26 @@ void opcontrol(){
 			isDoubleParkPneumaticExtended = !isDoubleParkPneumaticExtended;
 			setDoubleParkPneumatic(isDoubleParkPneumaticExtended);
 		}
-
-		//B = SPIN INTAKE BACKWARDS SLOWER: HELD
-		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B))
-		{
-			setUpperLowerIntake(-0.5 * MAX_VOLTAGE);
-			setSwitcherIntake(0.5 * MAX_VOLTAGE, false, true);
-			isIntakeSpinningForward = false;
-			isIntakeSpinningBackward = true;
+		
+		//X = DOUBLE PARK MACRO
+		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
+			
 		}
-		if (controller.get_digital_new_release(pros::E_CONTROLLER_DIGITAL_B))
-		{
-			isIntakeSpinningForward = false;
-			isIntakeSpinningBackward = false;
-			setIntake(0);
-		}
-
+		
+		/*
 		//X = DESCORE MACRO
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
 			if (!isDescoreMacroRunning){
 				isDescoreMacroRunning = true;
-				pros::Task macro_task(descoreMacro);
+				
 			}
 			else{
 				isDescoreMacroRunning = false;
 			}
 		}
+		*/
 		
+		/*
 		//Y = DESCORE MACRO
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
 			isMatchLoadPneumaticExtended = true;
@@ -171,40 +182,7 @@ void opcontrol(){
 			isMatchLoadPneumaticExtended = false;
 			setMatchLoadPneumatic(isMatchLoadPneumaticExtended);
 		}
-
-
-		//DOWN = SWITCHER DIRECTION BACKWARDS: SEPARATE BUTTON TOGGLE
-		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
-			shouldSwitcherSpinFoward = false;
-			shouldSwitcherSpinBackward = true;
-			if (isIntakeSpinningForward || isIntakeSpinningBackward){
-				setSwitcherIntake(MAX_VOLTAGE, shouldSwitcherSpinFoward, shouldSwitcherSpinBackward);
-			}
-		}
-
-		//LEFT = SWITCHER DIRECTION FORWARD: SEPARATE BUTTON TOGGLE
-		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)){
-			shouldSwitcherSpinFoward = true;
-			shouldSwitcherSpinBackward = false;
-			if ((isIntakeSpinningForward || isIntakeSpinningBackward)){	
-				setSwitcherIntake(MAX_VOLTAGE, shouldSwitcherSpinFoward, shouldSwitcherSpinBackward);
-			}
-		}
-
-		//RIGHT = TOP GOAL SCORE: HOLD
-		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT))
-		{
-			setUpperLowerIntake(MAX_VOLTAGE);
-			setSwitcherIntake(0.65 * MAX_VOLTAGE, false, true);
-			isIntakeSpinningForward = false;
-			isIntakeSpinningBackward = true;
-		}
-		if (controller.get_digital_new_release(pros::E_CONTROLLER_DIGITAL_RIGHT))
-		{
-			isIntakeSpinningForward = false;
-			isIntakeSpinningBackward = false;
-			setIntake(0);
-		}
+		*/
 
 		//L1 = EXTEND / RETRACT DESCORE PNEUMATIC: TOGGLE
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)){
@@ -216,36 +194,6 @@ void opcontrol(){
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)){
 			isMatchLoadPneumaticExtended = !isMatchLoadPneumaticExtended;
 			setMatchLoadPneumatic(isMatchLoadPneumaticExtended);
-		}
-
-		//R1 = SPIN INTAKE FORWARDS OR STOP INTAKE: TOGGLE
-		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)){
-			if (isIntakeSpinningForward == false){
-				isIntakeSpinningForward = true;
-				isIntakeSpinningBackward = false;
-				setUpperLowerIntake(MAX_VOLTAGE);
-				setSwitcherIntake(MAX_VOLTAGE, shouldSwitcherSpinFoward, shouldSwitcherSpinBackward);
-			}
-			else{
-				isIntakeSpinningForward = false;
-				isIntakeSpinningBackward = false;
-				setIntake(0);
-			}
-		}
-
-		//R2 = SPIN INTAKE BACKWARDS: HELD
-		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2))
-		{
-			setUpperLowerIntake(-MAX_VOLTAGE);
-			setSwitcherIntake(MAX_VOLTAGE, false, true);
-			isIntakeSpinningForward = false;
-			isIntakeSpinningBackward = true;
-		}
-		if (controller.get_digital_new_release(pros::E_CONTROLLER_DIGITAL_R2))
-		{
-			isIntakeSpinningForward = false;
-			isIntakeSpinningBackward = false;
-			setIntake(0);
 		}
 
 		setDriveByDriver();

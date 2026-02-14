@@ -21,14 +21,14 @@ void leftMatchAuton(){
 
 	//SCORE ON TOP GOAL
 	setIntake(MAX_VOLTAGE);
-	setSwitcherIntake(0.4 * MAX_VOLTAGE, false, true);
+	setSwitcherIntake(-0.4 * MAX_VOLTAGE);
 	pros::delay(1250); //2000 
 
 	//ALIGN WITH MATCH LOADER
 	rotate(-130);
 
 	//CONTINUE ALIGNING WITH MATCH LOADER
-	setSwitcherIntake(MAX_VOLTAGE, false, true);
+	setSwitcherIntake(-MAX_VOLTAGE);
 	translate(2375); //2325 = TOO CLOSE
 	rotate(-183);
 	
@@ -494,7 +494,7 @@ void skillsAutonRoute2(){
 
 void spinIntakeAuton(){
 	pros::delay(1000);
-	setSwitcherIntake(0.25 * MAX_VOLTAGE, true, false); 
+	setSwitcherIntake(0.25 * MAX_VOLTAGE); 
 }
 
 void johnTesting(){
