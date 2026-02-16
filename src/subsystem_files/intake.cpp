@@ -93,6 +93,8 @@ void intakeLoop(void*){
         
         /////
         
+        
+    
         if ((opticalSensor.get_hue() >= 345 || opticalSensor.get_hue() <= 45) && !color && opticalSensor.get_proximity() == 255){
             setSwitcherIntake(-MAX_VOLTAGE);
             pros::delay(400);
@@ -106,9 +108,11 @@ void intakeLoop(void*){
             setSwitcherIntake(switcherVoltage);
         }
         
+        
+        
         /////
         
-       setSwitcherIntake(switcherVoltage);
+        //setSwitcherIntake(switcherVoltage);
 
         //controller.print(0, 0, "%d            ", opticalSensor.get_proximity());
         pros::delay(10);

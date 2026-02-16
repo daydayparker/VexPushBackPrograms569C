@@ -15,7 +15,7 @@ extern pros::MotorGroup upperLowerIntakeMotorGroup;
 extern pros::Imu inertialSensor;
 extern pros::Distance distanceSensor;
 
-//OPTICAL
+//OPTICAL`
 extern pros::Optical opticalSensor;
 
 //PNEUMATICS

@@ -21,7 +21,7 @@ void leftMatchAuton(){
 
 	//SCORE ON TOP GOAL
 	setIntake(MAX_VOLTAGE);
-	setSwitcherIntake(-0.4 * MAX_VOLTAGE);
+	setSwitcherIntake(-0.8 * MAX_VOLTAGE); //-0.4
 	pros::delay(1250); //2000 
 
 	//ALIGN WITH MATCH LOADER
@@ -178,19 +178,20 @@ void rightNoMidMatchAuton(){
 
 	//MAKE SURE BALLS DO NOT GET STUCK 
 	setIntake(-MAX_VOLTAGE);
-	pros::delay(400);
+	pros::delay(125);
 	setIntake(MAX_VOLTAGE);
 	pros::delay(125);
 
 	//RETRIEVE THREE RED BALLS FROM MATCH LOADER
 	setDrive(0.4 * MAX_VOLTAGE, 0.4 * MAX_VOLTAGE);
 	pros::delay(500); // 1750
-	shake(3, MAX_VOLTAGE * 0.5, -MAX_VOLTAGE * 0.25, 500, 100);
+	shake(2, MAX_VOLTAGE * 0.5, -MAX_VOLTAGE * 0.25, 600 , 100);
+	//shake(3, MAX_VOLTAGE * 0.5, -MAX_VOLTAGE * 0.25, 500, 100);
 	rotate(180);
 
 	//ALIGN WITH LONG GOAL
 	setMatchLoadPneumatic(false);
-	setDrive(-0.5 * MAX_VOLTAGE, -0.5 * MAX_VOLTAGE);
+	setDrive(-0.65 * MAX_VOLTAGE, -0.65 * MAX_VOLTAGE);
 	pros::delay(500);
 
 	//SCORE ON LONG GOAL
@@ -200,7 +201,7 @@ void rightNoMidMatchAuton(){
 
 	//UNSTUCK BALLS IF BALLS ARE STUCK
 	setIntake(-MAX_VOLTAGE);
-	pros::delay(250);
+	pros::delay(125);
 
 	//CONTINUE SCORING ON LONG GOAL
 	setIntake(MAX_VOLTAGE);
@@ -217,6 +218,7 @@ void rightNoMidMatchAuton(){
 	rotate(180);
 	translate(-700); //-1250
 	rotate(210);
+	//400 ms saved
 }
 
 void safeRightMidMatchAuton(){
@@ -323,7 +325,7 @@ void soloMatchAuton(){
 void skillsAutonRoute(){
 
 	//MOVING TOWARDS MATCH LOADER
-	translate(1500);
+	translate(1500); //1500
 
 	//ROTATE TOWARDS MATCH LOADER
 	rotate(90); 
@@ -340,11 +342,11 @@ void skillsAutonRoute(){
 	//RETRIEVE BALLS FROM CLOSE RIGHT MATCH LOADER
 	//SCORING!!!!!!!!!
 	setIntake(MAX_VOLTAGE);
-	setDrive(0.3 * MAX_VOLTAGE, 0.3 * MAX_VOLTAGE);
+	setDrive(0.45 * MAX_VOLTAGE, 0.45 * MAX_VOLTAGE);
 	pros::delay(1000);
 	setDrive(0, 0);
 	pros::delay(1000);
-	shake(3, MAX_VOLTAGE, 0, 250, 750);
+	shake(4, MAX_VOLTAGE, 0, 250, 750);
 
 	//MOVE TOWARDS LEFT LONG GOAL
 	rotate(90);
@@ -354,7 +356,7 @@ void skillsAutonRoute(){
 	setUpperLowerIntake(0);
 	pros::delay(250);
 	setSwitcherIntake(0);
-	translate(-4625, false, 0.06, 0, 0.025, 0); ///////////////////////////////////////////////////////////////////////////////////// 4500 - 4750
+	translate(-4525, false, 0.06, 0, 0.025, 0); ///////////////////////////////////////////////////////////////////////////////////// 4500 - 4750
 	pros::delay(500);
 
  	//ALIGN WITH LEFT LONG GOAL
@@ -376,7 +378,7 @@ void skillsAutonRoute(){
 	setIntake(-MAX_VOLTAGE);
 	pros::delay(250);
 	setIntake(MAX_VOLTAGE);
-	pros::delay(3000);
+	pros::delay(5000);
 
 	//MOVE TOWARDS LEFT MATCH LOADER
 	rotate(87);//BECAUSE FIELDS ARE SLIGHTLY OFF
@@ -384,17 +386,17 @@ void skillsAutonRoute(){
 	translate(1000);
 	setDescorePneumatic(true);
 	//SCORING!!!!!!!!!
-	setDrive(0.3 * MAX_VOLTAGE, 0.3 * MAX_VOLTAGE);
+	setDrive(0.45 * MAX_VOLTAGE, 0.45 * MAX_VOLTAGE);
 	pros::delay(1000);
 	setDrive(0, 0);
 	pros::delay(1000);
-	shake(3, MAX_VOLTAGE, 0, 250, 750);
+	shake(4, MAX_VOLTAGE, 0, 250, 750);
 
 	//ALIGN WITH LEFT LONG GOAL AGAIN
 	rotate(87);//BECAUSE FIELDS ARE SLIGHTLY OFF
 	translate(-1000);
 	setMatchLoadPneumatic(false);
-	setDrive(-0.35 * MAX_VOLTAGE, -0.35 * MAX_VOLTAGE);
+	setDrive(-0.45 * MAX_VOLTAGE, -0.45 * MAX_VOLTAGE);
 	pros::delay(250);
 
 	//SCORE ON LEFT LONG GOAL AGAIN
@@ -408,7 +410,7 @@ void skillsAutonRoute(){
 	setIntake(-MAX_VOLTAGE);
 	pros::delay(250);
 	setIntake(MAX_VOLTAGE);
-	pros::delay(3000);
+	pros::delay(5000);
 
 	//ALIGN WITH PARKING ZONE
 	translate(600);

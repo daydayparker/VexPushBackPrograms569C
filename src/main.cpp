@@ -48,28 +48,13 @@ void display_img_from_file(const void * src){
  * to keep execution time for this mode under a few seconds.
  */
 
-//REMEMBER UPDATE BLUE ONE TOO (PROGRAMS: 3 & 4)
+ //COLOR: 0 IS BLUE AND 1 IS RED
 int color = 1;
 
 void initialize() {
 	//PUT AWESOME TEXT ON THE CONTROLLER SCREEN
 	controller.print(0, 0, "By: %s", "daydayparker");
-	//pros::delay(1000);
 	//controller.print(0, 0, "Angle: %f", potentiometer.get_angle());
-
-	
-	/*
-	if (potentiometer.get_angle() < 125){
-		//BLUE
-		color = 0;
-	}
-	else{
-		//RED
-		color = 1;
-	}
-	*/
-	
-	controller.print(0, 0, (color) ? "red" : "blue");
 
 	//SET MOTOR BRAKE TYPES
 	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_HOLD);
@@ -119,25 +104,10 @@ void competition_initialize() {
  */
 
 void autonomous() {
-	//PROGRAMS FOR TOURNAMENT
-	/*
-	1. BLUELEFT
-	2. REDLEFT
-	3. BLUEMIDRIGHT
-	4. REDMIDRIGHT
-	5. BLUENOMIDRIGHT
-	6. REDNOMIDRIGHT
-	7. SKILLS
-	*/
-
-	//ORIGINAL STUFF
 	//leftMatchAuton(); //1
 	//rightMidMatchAuton(); //2
-	//rightNoMidMatchAuton(); //3
-	//safeRightMidMatchAuton(); //4
-	//soloMatchAuton(); none
-	//skillsAutonRoute(); //6
-	//spinIntakeAuton(); //7
+	rightNoMidMatchAuton(); //3
+	//skillsAutonRoute(); //4
 	//johnTesting(); //8
 }
 
@@ -158,15 +128,30 @@ void autonomous() {
 
 void opcontrol(){
 	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_COAST);
+	/*
+	if (potentiometer.get_value() < 125){
+		//BLUE
+		color = 0;
+	}
+	else{
+		//RED
+		color = 1;
+	}
+	*/
+	
+	controller.print(0, 0, (color) ? "red" : "blue");
 	pros::Task intakeTask(intakeLoop);
 
 	while (true){
+		//controller.print(0,0, "%f", potentiometer.get_value());
 		pros::delay(WHILE_LOOP_DELAY_DURATION);
 
 		//A = DOUBLE PARK EXTENDED / RETRACTED: TOGGLE
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
 			isDoubleParkPneumaticExtended = !isDoubleParkPneumaticExtended;
+			isMatchLoadPneumaticExtended = false;
 			setDoubleParkPneumatic(isDoubleParkPneumaticExtended);
+			setMatchLoadPneumatic(isMatchLoadPneumaticExtended);
 		}
 		
 		//L1 = EXTEND / RETRACT DESCORE PNEUMATIC: TOGGLE
