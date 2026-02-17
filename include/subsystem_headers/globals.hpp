@@ -1,5 +1,6 @@
 #include "main.h"
 
+//ALLIANCE COLOR
 extern int color;
 
 //DRIVE MOTORS  

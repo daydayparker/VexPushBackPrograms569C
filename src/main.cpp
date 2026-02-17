@@ -54,7 +54,6 @@ int color = 1;
 void initialize() {
 	//PUT AWESOME TEXT ON THE CONTROLLER SCREEN
 	controller.print(0, 0, "By: %s", "daydayparker");
-	//controller.print(0, 0, "Angle: %f", potentiometer.get_angle());
 
 	//SET MOTOR BRAKE TYPES
 	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_HOLD);
@@ -79,7 +78,7 @@ void disabled() {
 }
 
 /**
- * Runs after initialize(), and before autonomous when connected to the Field
+ * Runs after initialize(), and before autonomous when connected to the FieldS
  * Management System or the VEX Competition Switch. This is intended for
  * competition-specific initialization routines, such as an autonomous selector
  * on the LCD.
@@ -128,6 +127,8 @@ void autonomous() {
 
 void opcontrol(){
 	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_COAST);
+
+	//FIX POTENTIOMETER CODE
 	/*
 	if (potentiometer.get_value() < 125){
 		//BLUE

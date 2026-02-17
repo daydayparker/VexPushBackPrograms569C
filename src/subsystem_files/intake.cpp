@@ -86,38 +86,25 @@ void intakeLoop(void*){
         }
 
         //COMMENT OUT WHEN UPLOADING TO SKILLS
-        //get proxitymity thingie
-        //WHEN WE ARE BLUE
-        //255 constn idk!
-        //400 is wait time for otpacil sensor: constant 
-        
-        /////
-        
-        
-    
+        //
         if ((opticalSensor.get_hue() >= 345 || opticalSensor.get_hue() <= 45) && !color && opticalSensor.get_proximity() == 255){
             setSwitcherIntake(-MAX_VOLTAGE);
-            pros::delay(400);
+            pros::delay(OPTICAL_SENSOR_DELAY);
         }
         //WHEN WE ARE RED
         else if ((opticalSensor.get_hue() >= 160 && opticalSensor.get_hue() <= 220) && color && opticalSensor.get_proximity() == 255){
             setSwitcherIntake(-MAX_VOLTAGE);
-            pros::delay(400);
+            pros::delay(OPTICAL_SENSOR_DELAY);
         }
         else{
             setSwitcherIntake(switcherVoltage);
         }
+        //
         
-        
-        
-        /////
-        
+        //DECOMMENT WHEN UPLOADING TO SKILLS
         //setSwitcherIntake(switcherVoltage);
 
-        //controller.print(0, 0, "%d            ", opticalSensor.get_proximity());
-        pros::delay(10);
+        pros::delay(WHILE_LOOP_DELAY_DURATION);
     }
     
 }
-
-//set up another task
