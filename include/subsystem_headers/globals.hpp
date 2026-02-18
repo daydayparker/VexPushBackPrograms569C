@@ -6,6 +6,7 @@ extern int color;
 //DRIVE MOTORS  
 extern pros::MotorGroup leftDriveMotorGroup;
 extern pros::MotorGroup rightDriveMotorGroup;
+extern pros::MotorGroup driveMotorGroup;
 
 //INTAKE MOTORS
 extern pros::MotorGroup allIntakeMotorGroup;

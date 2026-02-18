@@ -1,5 +1,4 @@
 #include "main.h"
-//#include "liblvgl/lvgl.h"
 
 /**
  * A callback function for LLEMU's center button.
@@ -19,28 +18,6 @@ void on_center_button() {
 }
 */
 
-/*
-void display_img_from_c_array(){
-	// create a variable for the c array (image)
-	LV_IMAGE_DECLARE(john_robot_image);
-
-	// declare and define the image object
-	lv_obj_t* img = lv_image_create(lv_screen_active());
-
-	// set the source data for the image
-	lv_image_set_src(img, &john_robot_image);
-
-	//align image
-	lv_obj_align(img, LV_ALIGN_CENTER, 0, 0);
-}
-
-void display_img_from_file(const void * src){
-
-}
-*/
-
-
-
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -48,16 +25,19 @@ void display_img_from_file(const void * src){
  * to keep execution time for this mode under a few seconds.
  */
 
- //COLOR: 0 IS BLUE AND 1 IS RED
+//COLOR: 0 IS BLUE AND 1 IS RED
 int color = 1;
 
 void initialize() {
 	//PUT AWESOME TEXT ON THE CONTROLLER SCREEN
 	controller.print(0, 0, "By: %s", "daydayparker");
 
+	//PUT AWESOME IMAGE ON BRAIN
+	display_img_from_c_array(daniel_skill_issue_image);
+
 	//SET MOTOR BRAKE TYPES
-	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_HOLD);
-	allIntakeMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_BRAKE);
+	driveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_HOLD);
+	allIntakeMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_HOLD);
 
 	//CALIBRATE THE INERTIAL SENSOR
 	inertialSensor.reset();
@@ -126,8 +106,8 @@ void autonomous() {
 
 
 void opcontrol(){
-	setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_COAST);
-
+	driveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
+	
 	//FIX POTENTIOMETER CODE
 	/*
 	if (potentiometer.get_value() < 125){

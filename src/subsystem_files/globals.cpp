@@ -4,8 +4,11 @@
 //{FRONT, MIDDLE, BACK}
 //{-18, -16, -4}
 //{20, 10, 12}
+//{LEFT FRONT, LEFT MIDDLE, LEFT BACK, RIGHT FRONT, RIGHT MIDDLE, RIGHT BACK}
+//{-18, -16, -4, 20, 10, 12}
 pros::MotorGroup leftDriveMotorGroup({-18, -16, -4}, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
 pros::MotorGroup rightDriveMotorGroup({20, 10, 12}, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
+pros::MotorGroup driveMotorGroup({-18, -16, -4, 20, 10, 12}, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
 
 //INTAKE MOTORS
 //allIntakeMotorGroup = {UPPER, LOWER, SWITCHER}

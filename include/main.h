@@ -75,6 +75,7 @@ void opcontrol(void);
 #include "subsystem_headers/constants.hpp"
 #include "subsystem_headers/drive.hpp"
 #include "subsystem_headers/globals.hpp"
+#include "subsystem_headers/image.hpp"
 #include "subsystem_headers/intake.hpp"
 #include "subsystem_headers/pneumatics.hpp"
 #include "subsystem_headers/states.hpp"
