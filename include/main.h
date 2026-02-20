@@ -80,6 +80,8 @@ void opcontrol(void);
 #include "subsystem_headers/pneumatics.hpp"
 #include "subsystem_headers/states.hpp"
 
+#include "gif-pros/gifclass.hpp"
+
 /**
  * You can add C++-only headers here
  */
