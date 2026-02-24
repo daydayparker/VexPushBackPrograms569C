@@ -2,29 +2,24 @@
 
 extern int color;
 
-//DRIVE MOTORS  
+//DRIVE MOTORS
+extern pros::MotorGroup allDriveMotorGroup;
 extern pros::MotorGroup leftDriveMotorGroup;
 extern pros::MotorGroup rightDriveMotorGroup;
 
-//INTAKE MOTORS
-extern pros::MotorGroup allIntakeMotorGroup;
-extern pros::Motor switcherIntakeMotor;
-extern pros::MotorGroup upperLowerIntakeMotorGroup;
+//INTAKE MOTOR
+extern pros::Motor intakeMotor;
+
+//LEVER MOTOR
+extern pros::Motor leverMotor;
 
 //ODOMETRY
 extern pros::Imu inertialSensor;
 extern pros::Distance distanceSensor;
 
-//OPTICAL`
-extern pros::Optical opticalSensor;
-
 //PNEUMATICS
 extern pros::adi::DigitalOut descorePneumatic;
-extern pros::adi::DigitalOut doubleParkPneumatic;
 extern pros::adi::DigitalOut matchLoadPneumatic;
-
-//POTENTIOMETER
-extern pros::adi::Potentiometer potentiometer;
 
 //CONTROLLER
 extern pros::Controller controller;
