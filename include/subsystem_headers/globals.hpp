@@ -16,6 +16,8 @@ extern pros::Motor leverMotor;
 //ODOMETRY
 extern pros::Imu inertialSensor;
 extern pros::Distance distanceSensor;
+extern pros::Rotation horizontalRotationSensor;
+extern pros::Rotation verticalRotationSensor;
 
 //PNEUMATICS
 extern pros::adi::DigitalOut descorePneumatic;

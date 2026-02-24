@@ -81,6 +81,12 @@ void opcontrol(void);
 #include "subsystem_headers/pneumatics.hpp"
 #include "subsystem_headers/states.hpp"
 
+//THANK YOU'S
+//THANK YOU: theol0403
+#include "gif-pros/gifclass.hpp"
+//THANK YOU: LemLib
+#include "lemlib/api.hpp" // IWYU pragma: keep
+
 /**
  * You can add C++-only headers here
  */

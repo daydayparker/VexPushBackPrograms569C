@@ -15,6 +15,8 @@ pros::Motor leverMotor(15, pros::v5::MotorGears::red, pros::v5::MotorUnits::degr
 //ODOMETRY
 pros::Distance distanceSensor(17);
 pros::Imu inertialSensor(13);
+pros::Rotation horizontalRotationSensor(1);
+pros::Rotation verticalRotationSensor(2);
 
 //PNEUMATICS
 pros::adi::DigitalOut descorePneumatic('A');
@@ -23,3 +25,13 @@ pros::adi::DigitalOut matchLoadPneumatic('C');
 
 //CONTROLLER
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
+
+//LEMLIB
+lemlib::Drivetrain drivetrain(
+    &leftDriveMotorGroup,
+    &rightDriveMotorGroup,
+    10, //MAKE CONSTANT
+    lemlib::Omniwheel::NEW_325,
+    450, //MAKE CONSTANT
+    2 //MAKE CONSTANT
+);
