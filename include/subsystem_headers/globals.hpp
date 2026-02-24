@@ -19,6 +19,7 @@ extern pros::Distance distanceSensor;
 
 //PNEUMATICS
 extern pros::adi::DigitalOut descorePneumatic;
+extern pros::adi::DigitalOut leverPneumatic;
 extern pros::adi::DigitalOut matchLoadPneumatic;
 
 //CONTROLLER

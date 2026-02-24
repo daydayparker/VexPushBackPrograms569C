@@ -18,7 +18,8 @@ pros::Imu inertialSensor(13);
 
 //PNEUMATICS
 pros::adi::DigitalOut descorePneumatic('A');
-pros::adi::DigitalOut matchLoadPneumatic('B');
+pros::adi::DigitalOut leverPneumatic('B');
+pros::adi::DigitalOut matchLoadPneumatic('C');
 
 //CONTROLLER
 pros::Controller controller(pros::E_CONTROLLER_MASTER);

@@ -3,6 +3,9 @@
 void leverLoop(void *){
     while (true)
     {
+        //CHECK MOTOR POSITION
+        //controller.print(0, 0, "%f", leverMotor.get_position());
+
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_X))
 		{
 			leverState = 0;
@@ -11,8 +14,12 @@ void leverLoop(void *){
         {
 			leverState = 1;
         }
-        else{
+        //LEVER CONSTANTS HERE
+        else if (!(leverMotor.get_position() <= 5)){
             leverState = 2;
+        }
+        else{
+            leverState = 3;
         }
         
         switch (leverState)
@@ -29,8 +36,11 @@ void leverLoop(void *){
         case 2:
             leverMotor.move(-MAX_VOLTAGE);
             break;
+        case 3:
+            leverMotor.move(0);
+            break;
         default:
-            leverMotor.move(-MAX_VOLTAGE); 
+            leverMotor.move(0); 
             break;  
         }
 

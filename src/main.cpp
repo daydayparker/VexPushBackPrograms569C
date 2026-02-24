@@ -1,5 +1,4 @@
 #include "main.h"
-//#include "liblvgl/lvgl.h"
 
 /**
  * A callback function for LLEMU's center button.
@@ -49,6 +48,9 @@ void display_img_from_file(const void * src){
  */
 
 void initialize() {
+	//PUT AWESOME IMAGE ON THE BRAIN SCREEN
+	display_img_from_c_array();
+
 	//PUT AWESOME TEXT ON THE CONTROLLER SCREEN
 	controller.print(0, 0, "By: %s", "daydayparker");
 
@@ -56,6 +58,9 @@ void initialize() {
 	allDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_HOLD);
 	intakeMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	leverMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+
+	//RESET LEVER MOTOR
+	leverMotor.tare_position();
 
 	//CALIBRATE THE INERTIAL SENSOR
 	inertialSensor.reset();
@@ -142,6 +147,12 @@ void opcontrol(){
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)){
 			isMatchLoadPneumaticExtended = !isMatchLoadPneumaticExtended;
 			setMatchLoadPneumatic(isMatchLoadPneumaticExtended);
+		}
+
+		//DOWN = EXTEND / RETRACT LEVER PNEUMATIC: TOGGLE
+		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
+			isLeverPneumaticExtended = !isLeverPneumaticExtended;
+			setLeverPneumatic(isLeverPneumaticExtended);
 		}
 
 		setDriveByDriver();
