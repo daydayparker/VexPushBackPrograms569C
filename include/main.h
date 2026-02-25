@@ -86,7 +86,6 @@ void opcontrol(void);
 #include "gif-pros/gifclass.hpp"
 //THANK YOU: LemLib
 #include "lemlib/api.hpp" // IWYU pragma: keep
-
 /**
  * You can add C++-only headers here
  */

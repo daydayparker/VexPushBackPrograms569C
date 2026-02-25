@@ -11,7 +11,6 @@ double getDistanceSensorValueInInches(){
 }
 */
 
-
 void resetDriveEncoders(){
    leftDriveMotorGroup.tare_position_all();
    rightDriveMotorGroup.tare_position_all();
@@ -20,12 +19,6 @@ void resetDriveEncoders(){
 void setDrive(int left, int right){
     leftDriveMotorGroup.move(left);
     rightDriveMotorGroup.move(right);
-}
-
-void setDriveMotorBrakeType(const pros::motor_brake_mode_e_t mode)
-{
-    leftDriveMotorGroup.set_brake_mode_all(mode);
-	rightDriveMotorGroup.set_brake_mode_all(mode);
 }
 
 int sign(double number){
@@ -118,7 +111,7 @@ void rotate(int degrees, double kP, double kI, double kD, double acceleration, d
 
 void shake(int shakes, double firstVoltage, double secondVoltage, int shakeDuration, int coolDown)
 {
-    setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_COAST);
+    allDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_COAST);
     for (int shakeCounter = 0; shakeCounter < shakes; shakeCounter++)
     {
         setDrive(firstVoltage, firstVoltage);
@@ -126,7 +119,7 @@ void shake(int shakes, double firstVoltage, double secondVoltage, int shakeDurat
         setDrive(secondVoltage, secondVoltage);
         pros::delay(coolDown);
     }
-    setDriveMotorBrakeType(pros::E_MOTOR_BRAKE_BRAKE);
+    allDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_HOLD);
 }
 
 void translate(int displacement, bool usesDistanceSensor, double kP, double kI, double kD, double kA, double acceleration, double slewRateThreshold){
