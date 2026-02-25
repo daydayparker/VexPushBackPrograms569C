@@ -43,7 +43,7 @@ pros::Rotation verticalRotationSensor(2);
 //PNEUMATICS
 pros::adi::DigitalOut descorePneumatic('A');
 pros::adi::DigitalOut hoodPneumatic('B');
-pros::adi::DigitalOut leverPneumatic('C');
+pros::adi::DigitalOut leverPneumatic('C', false);
 pros::adi::DigitalOut matchLoadPneumatic('D');
 
 //CONTROLLER
