@@ -1,6 +1,5 @@
 #include "main.h"
-#include "lemlib/chassis/chassis.hpp"
-#include "lemlib/api.hpp"
+
 // PROS //
 
 //DRIVE MOTORS
@@ -13,8 +12,8 @@ pros::MotorGroup allDriveMotorGroup(
 pros::MotorGroup leftDriveMotorGroup(
     {-18, -16, -4}, 
     pros::v5::MotorGears::blue, 
-    pros::v5::MotorUnits::degrees)
-    ;
+    pros::v5::MotorUnits::degrees
+);
 pros::MotorGroup rightDriveMotorGroup(
     {20, 10, 12}, 
     pros::v5::MotorGears::blue, 
@@ -29,7 +28,8 @@ pros::Motor intakeMotor(
 );
 
 //LEVER MOTOR
-pros::Motor leverMotor(15, 
+pros::Motor leverMotor(
+    15, 
     pros::v5::MotorGears::red, 
     pros::v5::MotorUnits::degrees
 );
@@ -42,8 +42,9 @@ pros::Rotation verticalRotationSensor(2);
 
 //PNEUMATICS
 pros::adi::DigitalOut descorePneumatic('A');
-pros::adi::DigitalOut leverPneumatic('B');
-pros::adi::DigitalOut matchLoadPneumatic('C');
+pros::adi::DigitalOut hoodPneumatic('B');
+pros::adi::DigitalOut leverPneumatic('C');
+pros::adi::DigitalOut matchLoadPneumatic('D');
 
 //CONTROLLER
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
@@ -107,20 +108,6 @@ lemlib::ControllerSettings angularController(
     3, // large error range, in degrees
     500, // large error range timeout, in milliseconds
     0 // maximum acceleration (slew)
-);
-
-//THROTTLE CURVE
-lemlib::ExpoDriveCurve throttleCurve(
-    3,    // joystick deadband out of 127
-    14,   // minimum output where drivetrain will move out of 127
-    1.019 // expo curve gain
- );
-
-//STEER CURVE
-lemlib::ExpoDriveCurve steerCurve(
-    3,    // joystick deadband out of 127
-    14,   // minimum output where drivetrain will move out of 127
-    1.019 // expo curve gain
 );
 
 //CHASSIS

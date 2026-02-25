@@ -48,8 +48,8 @@ void display_img_from_file(const void * src){
  */
 
 void initialize() {
-	//PUT AWESOME IMAGE ON THE BRAIN SCREEN
-	display_img_from_c_array();
+	//PUT AWESOME GIF ON THE BRAIN SCREEN
+	//static Gif gif("/usd/DannyMoment.gif", lv_scr_act());
 
 	//PUT AWESOME TEXT ON THE CONTROLLER SCREEN
 	controller.print(0, 0, "By: %s", "daydayparker");
@@ -137,24 +137,30 @@ void opcontrol(){
 	while (true){
 		pros::delay(WHILE_LOOP_DELAY_DURATION);
 		
-		//L1 = EXTEND / RETRACT DESCORE PNEUMATIC: TOGGLE
+		//L1: EXTEND / RETRACT DESCORE PNEUMATIC: TOGGLE
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)){
 			isDescorePneumaticExtended = !isDescorePneumaticExtended;
 			setDescorePneumatic(isDescorePneumaticExtended);
 		}
 
-		//L2 = MATCH LOAD EXTENDED / RETRACTED: TOGGLE
+		//L2: MATCH LOAD EXTENDED / RETRACTED: TOGGLE
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)){
 			isMatchLoadPneumaticExtended = !isMatchLoadPneumaticExtended;
 			setMatchLoadPneumatic(isMatchLoadPneumaticExtended);
 		}
 
-		//DOWN = EXTEND / RETRACT LEVER PNEUMATIC: TOGGLE
+		//DOWN: EXTEND / RETRACT LEVER PNEUMATIC: TOGGLE
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
 			isLeverPneumaticExtended = !isLeverPneumaticExtended;
 			setLeverPneumatic(isLeverPneumaticExtended);
 		}
 
+		//LEFT: EXTEND / RETRACT HOOD PNEUMATIC: TOGGLE
+		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)){
+			isHoodPneumaticExtended = !isHoodPneumaticExtended;
+			setHoodPneumatic(isHoodPneumaticExtended);
+		}
+		
 		setDriveByDriver();
 	}
 }

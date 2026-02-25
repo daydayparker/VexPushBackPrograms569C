@@ -42,7 +42,7 @@ void setDriveByDriver(){
     if (abs(rightJoystickValue) < ANALOG_DEAD_ZONE){
         rightJoystickValue = 0;
     }
-    setDrive(leftJoystickValue, rightJoystickValue);
+    chassis.tank(leftJoystickValue, rightJoystickValue);
 }
 
 //AUTONOMOUS FUNCTIONS

@@ -9,6 +9,15 @@ void setDescorePneumatic(bool isExtended){
     }
 }
 
+void setHoodPneumatic(bool isExtended){
+    if (isExtended == true){
+        hoodPneumatic.set_value(isExtended);
+    }
+    else{
+        hoodPneumatic.set_value(isExtended);
+    }
+}
+
 void setLeverPneumatic(bool isExtended){
     if (isExtended == true){
         leverPneumatic.set_value(isExtended);

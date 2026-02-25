@@ -24,6 +24,8 @@ extern pros::Rotation verticalRotationSensor;
 extern pros::adi::DigitalOut descorePneumatic;
 extern pros::adi::DigitalOut leverPneumatic;
 extern pros::adi::DigitalOut matchLoadPneumatic;
+extern pros::adi::DigitalOut hoodPneumatic;
+
 
 //CONTROLLER
 extern pros::Controller controller;
@@ -45,12 +47,6 @@ extern lemlib::ControllerSettings lateralController;
 
 //ANGULAR PID CONTROLLER
 extern lemlib::ControllerSettings angularController;
-
-//THROTTLE CURVE
-extern lemlib::ExpoDriveCurve throttleCurve; 
-
-//STEER CURVE
-extern lemlib::ExpoDriveCurve steerCurve;
 
 //CHASSIS
 extern lemlib::Chassis chassis;

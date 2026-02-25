@@ -3,6 +3,7 @@
 //STATE-TRACKING BOOLEANS
 bool intakeOn = false;
 bool isDescorePneumaticExtended = false;
+bool isHoodPneumaticExtended = false;
 bool isLeverPneumaticExtended = false;
 bool isMatchLoadPneumaticExtended = false;
 int intakeState = 0;
