@@ -36,7 +36,7 @@ pros::Motor leverMotor(
 
 //ODOMETRY
 pros::Distance distanceSensor(17);
-pros::Imu inertialSensor(13);
+pros::Imu inertialSensor(3);
 pros::Rotation horizontalRotationSensor(1);
 pros::Rotation verticalRotationSensor(2);
 
@@ -50,7 +50,7 @@ pros::adi::DigitalOut matchLoadPneumatic('D');
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 // LEMLIB //
-
+/*
 //DRIVETRAIN
 lemlib::Drivetrain drivetrain(
     &leftDriveMotorGroup,
@@ -116,4 +116,4 @@ lemlib::Chassis chassis(
     lateralController,
     angularController,
     sensors
-);
+);*/

@@ -106,10 +106,10 @@ void competition_initialize() {
  */
 
 void autonomous() {
-	//leftMatchAuton(); //1
-	//rightMatchAuton(); //2
-	//soloMatchAuton(); //3
-	//skillsAuton(); //4
+	//skillsAuton(); //1
+	//leftMatchAuton(); //2
+	rightMatchAuton(); //3
+	//soloMatchAuton(); //5
 	//janeTesting(); //8
 }
 
@@ -140,25 +140,25 @@ void opcontrol(){
 		//L1: EXTEND / RETRACT DESCORE PNEUMATIC: TOGGLE
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)){
 			isDescorePneumaticExtended = !isDescorePneumaticExtended;
-			setDescorePneumatic(isDescorePneumaticExtended);
+			descorePneumatic.set_value(isDescorePneumaticExtended);
 		}
 
 		//L2: MATCH LOAD EXTENDED / RETRACTED: TOGGLE
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)){
 			isMatchLoadPneumaticExtended = !isMatchLoadPneumaticExtended;
-			setMatchLoadPneumatic(isMatchLoadPneumaticExtended);
+			matchLoadPneumatic.set_value(isMatchLoadPneumaticExtended);
 		}
 
 		//DOWN: EXTEND / RETRACT LEVER PNEUMATIC: TOGGLE
-		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
+		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
 			isLeverPneumaticExtended = !isLeverPneumaticExtended;
-			setLeverPneumatic(isLeverPneumaticExtended);
+			leverPneumatic.set_value(isLeverPneumaticExtended);
 		}
 
 		//LEFT: EXTEND / RETRACT HOOD PNEUMATIC: TOGGLE
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)){
 			isHoodPneumaticExtended = !isHoodPneumaticExtended;
-			setHoodPneumatic(isHoodPneumaticExtended);
+			hoodPneumatic.set_value(isHoodPneumaticExtended);
 		}
 		
 		setDriveByDriver();

@@ -77,7 +77,6 @@ void opcontrol(void);
 #include "subsystem_headers/globals.hpp"
 #include "subsystem_headers/intake.hpp"
 #include "subsystem_headers/lever.hpp"
-#include "subsystem_headers/pneumatics.hpp"
 #include "subsystem_headers/states.hpp"
 
 //THANK YOU'S

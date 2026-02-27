@@ -10,7 +10,7 @@ void leverLoop(void *){
 		{
 			leverState = 0;
 		}
-        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP))
+        else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT))
         {
 			leverState = 1;
         }
@@ -30,7 +30,7 @@ void leverLoop(void *){
             break;
         //SLOW FORWARD
         case 1:
-            leverMotor.move(0.5 * MAX_VOLTAGE);
+            leverMotor.move(0.25 * MAX_VOLTAGE);
             break;
         //REVERSE
         case 2:

@@ -5,17 +5,6 @@ double getAverageDriveEncoderValue(){
     return (leftDriveMotorGroup.get_position(0) + rightDriveMotorGroup.get_position(0)) / 2;
 }
 
-/*
-double getDistanceSensorValueInInches(){
-    return distanceSensor.get_distance() * MILLIMETERS_TO_INCHES;
-}
-*/
-
-void resetDriveEncoders(){
-   leftDriveMotorGroup.tare_position_all();
-   rightDriveMotorGroup.tare_position_all();
-}
-
 void setDrive(int left, int right){
     leftDriveMotorGroup.move(left);
     rightDriveMotorGroup.move(right);
@@ -42,7 +31,7 @@ void setDriveByDriver(){
     if (abs(rightJoystickValue) < ANALOG_DEAD_ZONE){
         rightJoystickValue = 0;
     }
-    chassis.tank(leftJoystickValue, rightJoystickValue);
+    setDrive(leftJoystickValue, rightJoystickValue);
 }
 
 //AUTONOMOUS FUNCTIONS
@@ -122,18 +111,9 @@ void shake(int shakes, double firstVoltage, double secondVoltage, int shakeDurat
     allDriveMotorGroup.set_brake_mode_all(pros::E_MOTOR_BRAKE_HOLD);
 }
 
-void translate(int displacement, bool usesDistanceSensor, double kP, double kI, double kD, double kA, double acceleration, double slewRateThreshold){
-    //SETTING UP WHILE LOOP
-    int waitTime;
-    if (!usesDistanceSensor){
-        waitTime = WHILE_LOOP_DELAY_DURATION;
-    }
-    else{
-        waitTime = DISTANCE_SENSOR_DELAY;
-    }
-
+void translate(int displacement, double kP, double kI, double kD, double kA, double acceleration, double slewRateThreshold){
     //RESETTING DRIVE ENCODERS
-    resetDriveEncoders();
+    allDriveMotorGroup.tare_position_all();
 
     //PID VARIABLES
     double error;
@@ -146,13 +126,8 @@ void translate(int displacement, bool usesDistanceSensor, double kP, double kI, 
     int driveMotorVoltage = 0;
 
     //INITIALIZING ERROR
-    if (!usesDistanceSensor){
-        error = fabs(displacement) - fabs(averageDriveMotorEncoderValue);
-    }
-    else{
-       error = displacement - distanceSensor.get_distance();
-    }
-
+    error = fabs(displacement) - fabs(averageDriveMotorEncoderValue);
+   
     //SLEW RATE VARIABLES AND CONSTANTS
     int loopCounter = 0;
     const int DIRECTION = fabs(displacement) / displacement;
@@ -172,12 +147,7 @@ void translate(int displacement, bool usesDistanceSensor, double kP, double kI, 
         double voltageFromSlewRate = DIRECTION * (loopCounter * acceleration + slewRateThreshold);
 
         //UPDATE PID VARIABLES
-        if (!usesDistanceSensor){
-            error = displacement - getAverageDriveEncoderValue();
-        }
-        else{
-            error = displacement - distanceSensor.get_distance();
-        }
+        error = displacement - getAverageDriveEncoderValue();
         derivative = error - previousError;
         integral += error;
         previousError = error;
@@ -209,7 +179,7 @@ void translate(int displacement, bool usesDistanceSensor, double kP, double kI, 
         setDrive(driveMotorVoltage - angleAdjustment, driveMotorVoltage + angleAdjustment);
 
         //DELAY FOR LOOPING
-        pros::delay(waitTime);
+        pros::delay(WHILE_LOOP_DELAY_DURATION);
     }
 
     //STOP MOVING
